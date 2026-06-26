@@ -1,11 +1,11 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import StudentHeader from "@/components/StudentHeader";
-import { EnrolStatus } from "@/types";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ResourceList } from "@/data";
 import { useState } from "react";
 import ProgressRing from "@/components/ProgressRing";
 import { useAuth } from "@/context/AuthContext";
+import AdminHeader from "@/components/AdminHeader";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -166,8 +166,6 @@ const MOCK_COURSES: Course[] = [
     ],
   },
 ];
-
-// ─── Course Card ──────────────────────────────────────────────────────────────
 
 function CourseCard({
   course,
@@ -446,14 +444,19 @@ function NextLessonCTA({
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
-
-export default function StudentClassRoom() {
+export default function EditCourse() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const name = searchParams.get("name");
+  const resourceName = decodeURIComponent(name || "");
+  const fetchedResourceData = ResourceList.find(
+    (res) => res.name === resourceName,
+  );
+
   const [activeCourseId, setActiveCourseId] = useState<number>(
     MOCK_COURSES[0].id,
   );
-  const [enrolStatus] = useState<EnrolStatus>("Enrolled");
+
   const { activeTrack } = useAuth();
   const activeCourse =
     MOCK_COURSES.find((c) => c.id === activeCourseId) ?? MOCK_COURSES[0];
@@ -472,18 +475,17 @@ export default function StudentClassRoom() {
     <div className="min-h-screen bg-[#080F1E] flex pt-20">
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 overflow-y-auto p-4 sm:p-6">
-          <StudentHeader
-            title="Classroom"
-            subtitle="Learn and practice code"
-            enrolStatus={enrolStatus}
+          <AdminHeader
+            title={"Edit: " + fetchedResourceData?.name || ""}
+            subtitle={"Update course details below"}
           />
 
           {/* Sticky track banner */}
           {/* <TrackBanner
-            track={activeTrack.name}
-            gradColor={activeTrack.gradColor ?? "from-blue-500 to-cyan-600"}
-            color={activeTrack.color ?? "text-cyan-600"}
-          /> */}
+                    track={activeTrack.name}
+                    gradColor={activeTrack.gradColor ?? "from-blue-500 to-cyan-600"}
+                    color={activeTrack.color ?? "text-cyan-600"}
+                /> */}
 
           {/* Two-column layout */}
           <div className="mt-6 grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-6">

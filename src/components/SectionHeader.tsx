@@ -15,7 +15,8 @@ function SectionHeader({
       {action && (
         <button
           onClick={action}
-          className="flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
+          className="flex items-center gap-1 text-xs text-cyan-200 hover:text-cyan-500 
+          font-medium transition-colors cursor-pointer"
         >
           {actionLabel ?? "See all"}{" "}
           {actionLabel !== "" && <ChevronRight className="w-3.5 h-3.5" />}

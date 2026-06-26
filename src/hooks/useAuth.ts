@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  User,
-} from "firebase/auth";
-import { LoginUserProps, RegisterUserProps } from "@/types";
+import { useState, useCallback } from "react";
+// import {
+//   createUserWithEmailAndPassword,
+//   signInWithEmailAndPassword,
+//   signOut,
+//   onAuthStateChanged,
+//   User,
+// } from "firebase/auth";
+import { LoginUserProps, RegisterUserProps, User } from "@/types";
 // import { auth } from '@/lib/firebase/client';
 
 interface UseAuthReturn {

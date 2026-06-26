@@ -72,52 +72,55 @@ const STUDENT_MENU_ITEMS: SidebarItem[] = [
     name: "Settings",
     icon: Settings,
     href: "/student/settings",
-    submenu: [
-      {
-        name: "Profile",
-        icon: LayoutDashboard,
-        href: "/student/settings/profile",
-      },
-      {
-        name: "Notifications",
-        icon: LayoutDashboard,
-        href: "/student/settings/notifications",
-      },
-      {
-        name: "Billing",
-        icon: LayoutDashboard,
-        href: "/student/settings/billing",
-      },
-    ],
+    // submenu: [
+    //   {
+    //     name: "Profile",
+    //     icon: LayoutDashboard,
+    //     href: "/student/settings/profile",
+    //   },
+    //   {
+    //     name: "Notifications",
+    //     icon: LayoutDashboard,
+    //     href: "/student/settings/notifications",
+    //   },
+    //   {
+    //     name: "Billing",
+    //     icon: LayoutDashboard,
+    //     href: "/student/settings/billing",
+    //   },
+    // ],
   },
 ];
 
 const ADMIN_MENU_ITEMS: SidebarItem[] = [
   { name: "Dashboard", icon: LayoutDashboard, href: "/admin" },
-  { name: "Course Management", icon: BookOpen, href: "/admin/courses" },
   { name: "Students", icon: GraduationCap, href: "/admin/students" },
+  { name: "Course Management", icon: BookOpen, href: "/admin/courses" },
+  { name: "Enrolment Access", icon: LayoutDashboard, href: "/admin/enrol" },
+  { name: "Comms & Community", icon: LayoutDashboard, href: "/admin/comms" },
+  { name: "Payments", icon: DollarSign, href: "/admin/payments" },
   { name: "Reports", icon: BarChart2, href: "/admin/reports" },
   {
     name: "Settings",
     icon: Settings,
     href: "/admin/settings",
-    submenu: [
-      {
-        name: "General",
-        icon: LayoutDashboard,
-        href: "/admin/settings/general",
-      },
-      {
-        name: "Permissions",
-        icon: LayoutDashboard,
-        href: "/admin/settings/permissions",
-      },
-      {
-        name: "White Label",
-        icon: LayoutDashboard,
-        href: "/admin/settings/white-label",
-      },
-    ],
+    // submenu: [
+    //   {
+    //     name: "General",
+    //     icon: LayoutDashboard,
+    //     href: "/admin/settings/general",
+    //   },
+    //   {
+    //     name: "Permissions",
+    //     icon: LayoutDashboard,
+    //     href: "/admin/settings/permissions",
+    //   },
+    //   {
+    //     name: "White Label",
+    //     icon: LayoutDashboard,
+    //     href: "/admin/settings/white-label",
+    //   },
+    // ],
   },
 ];
 
@@ -355,14 +358,10 @@ interface SidebarProps {
 
 export default function Sidebar({ open = true, onClose }: SidebarProps) {
   const router = useRouter();
-  const { user, loading, logout } = useAuth();
+  const { user, loading, logout, accountType } = useAuth();
   console.log("Current User", user);
   const { isActivePath, findActiveItem } = usePathUtils();
-
-  const accountType: LoginUserState = user?.accountType ?? "student";
-  // const accountType: LoginUserState = user?.accountType ?? "admin";
   const menuItems = getMenuItems(accountType);
-
   const [openSubmenus, setOpenSubmenus] = useState<Set<string>>(new Set());
 
   // Auto-open submenu that contains the active route

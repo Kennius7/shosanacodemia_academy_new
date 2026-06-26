@@ -3,8 +3,8 @@
 import ProgressBar from "@/components/ProgressBar";
 import SectionHeader from "@/components/SectionHeader";
 import StudentHeader from "@/components/StudentHeader";
+import { useAuth } from "@/context/AuthContext";
 import { CONTINUE_COURSES, ENROLLED_COURSES } from "@/data";
-import { EnrolStatus } from "@/types";
 import {
   BookOpen,
   Clock,
@@ -14,7 +14,6 @@ import {
   BookA,
   BookCheck,
 } from "lucide-react";
-import { useState } from "react";
 
 // ─── Mock Data ─────────────────────────────────────────────────────────────────
 
@@ -178,7 +177,7 @@ function EnrolledCourses() {
 
 export default function StudentDashboard() {
   // const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [enrolStatus, setEnrolStatus] = useState<EnrolStatus>("Enrolled");
+  const { enrolStatus } = useAuth();
 
   return (
     <div className="min-h-screen bg-[#080F1E] flex pt-20">

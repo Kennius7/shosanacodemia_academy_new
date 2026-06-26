@@ -1,4 +1,4 @@
-import { CourseType } from "@/data";
+import { CourseType } from "@/types";
 import Link from "next/link";
 
 export function CourseCard({ course }: { course: CourseType }) {

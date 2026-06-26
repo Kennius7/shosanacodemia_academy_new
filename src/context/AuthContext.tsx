@@ -2,7 +2,7 @@
 
 import { Courses } from "@/data";
 import { persistToken, persistUser } from "@/lib/utils";
-import { Course, User } from "@/types";
+import { Course, EnrolStatus, LoginUserState, User } from "@/types";
 import React, {
   createContext,
   Dispatch,
@@ -20,6 +20,9 @@ type AuthContextType = {
   loading: boolean;
   logout: () => Promise<void>;
   activeTrack: Course;
+  enrolStatus: EnrolStatus;
+  setEnrolStatus: Dispatch<SetStateAction<EnrolStatus>>;
+  accountType: LoginUserState;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,7 +31,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [enrolStatus, setEnrolStatus] = useState<EnrolStatus>("Enrolled");
   const activeTrack = Courses[1];
+  const accountType: LoginUserState = user?.accountType ?? "student";
+  // const accountType: LoginUserState = user?.accountType ?? "admin";
 
   // On mount, try to restore a previous session from localStorage
   useEffect(() => {
@@ -71,6 +77,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     loading,
     logout,
     activeTrack,
+    enrolStatus,
+    setEnrolStatus,
+    accountType,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

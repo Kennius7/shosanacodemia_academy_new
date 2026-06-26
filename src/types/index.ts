@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export type LoginUserState = "student" | "instructor" | "admin";
 export type RoleType = "user" | "instructor" | "admin";
 export type Level = "Foundational" | "Intermediate" | "Advanced" | "Expert";
@@ -52,6 +53,16 @@ export interface Course {
   color?: string;
   rawGradColor1?: string;
   rawGradColor2?: string;
+}
+
+export interface ResourceListType {
+  name: string;
+  shortName: string;
+  data: Array<any>;
+  color: string;
+  gradColor: string;
+  activeBg: string;
+  inactiveBg: string;
 }
 
 export interface Benefit {

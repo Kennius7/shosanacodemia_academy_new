@@ -1,18 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
-import AuthModal from "../../../modals/AuthModal";
+// import AuthModal from "../../../modals/AuthModal";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Bell } from "lucide-react";
-import { capitalize } from "@/lib/utils";
+// import { capitalize } from "@/lib/utils";
 
 export default function Header() {
   const router = useRouter();
   const { user, loading, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [authModal, setAuthModal] = useState<"signin" | "signup" | null>(null);
+  // const [authModal, setAuthModal] = useState<"signin" | "signup" | null>(null);
 
   const navLinks = [
     { label: "Curriculum", href: "#curriculum" },
@@ -109,14 +110,14 @@ export default function Header() {
                 <>
                   <button
                     // onClick={() => setAuthModal("signin")}
-                    onClick={() => router.push("login")}
+                    onClick={() => router.push("/login")}
                     className="px-5 py-2 text-sm font-medium text-slate-300 hover:text-white border border-slate-700 hover:border-cyan-500/50 rounded-lg transition-all duration-200"
                   >
                     Sign In
                   </button>
                   <button
                     // onClick={() => setAuthModal("signup")}
-                    onClick={() => router.push("signup")}
+                    onClick={() => router.push("/signup")}
                     className="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-200 shadow-lg shadow-cyan-500/20"
                   >
                     Sign Up
@@ -179,7 +180,8 @@ export default function Header() {
                 <>
                   <button
                     onClick={() => {
-                      setAuthModal("signin");
+                      // setAuthModal("signin");
+                      router.push("/login");
                       setMenuOpen(false);
                     }}
                     className="w-full py-2.5 text-sm font-medium text-slate-300 border border-slate-700 rounded-lg"
@@ -188,7 +190,8 @@ export default function Header() {
                   </button>
                   <button
                     onClick={() => {
-                      setAuthModal("signup");
+                      // setAuthModal("signup");
+                      router.push("/signup");
                       setMenuOpen(false);
                     }}
                     className="w-full py-2.5 text-sm font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg"
@@ -202,13 +205,13 @@ export default function Header() {
         </div>
       </header>
 
-      {authModal && (
+      {/* {authModal && (
         <AuthModal
           mode={authModal}
           onClose={() => setAuthModal(null)}
           onSwitchMode={(mode) => setAuthModal(mode)}
         />
-      )}
+      )} */}
     </>
   );
 }

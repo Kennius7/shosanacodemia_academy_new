@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 // import Header from "@/components/home/home-comps/Header";
@@ -5,7 +6,6 @@ import { useApiMutation } from "@/hooks/useApiMutation";
 import { persistToken, persistUser } from "@/lib/utils";
 import { loginUser } from "@/services/api";
 import { ArrowLeft, Eye, EyeClosed } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
@@ -52,14 +52,14 @@ function Login() {
             {/* Header */}
             <div className="flex flex-col gap-4 items-start justify-center mb-8">
               <div className="flex items-center gap-2">
-                <Link
-                  href="/"
+                <button
+                  onClick={() => router.back()}
                   className="flex items-center gap-2 text-slate-400 hover:text-slate-300 
                   transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="h-5 w-5" />
-                  <p className="text-sm">Back to home</p>
-                </Link>
+                  <p className="text-sm">Go Back</p>
+                </button>
               </div>
 
               <div>
@@ -131,7 +131,7 @@ function Login() {
 
             {/* Sign in link */}
             <p className="mt-6 text-center text-xs text-slate-500">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <a
                 href="/signup"
                 className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors"
