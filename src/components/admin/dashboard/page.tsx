@@ -3,7 +3,7 @@
 import AdminHeader from "@/components/AdminHeader";
 import CourseTable from "@/components/CourseTable";
 import SectionHeader from "@/components/SectionHeader";
-import { Courses, ResourceList } from "@/data";
+import { ResourceList } from "@/data";
 import { BookA, BookCheck, Calendar, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -86,10 +86,10 @@ function StatsRow() {
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const filteredTracksTest = Courses.filter((c) =>
-    c.track?.includes("Javascript"),
-  );
-  console.log("Filtered Tracks:>>>>>>>>", filteredTracksTest);
+  // const filteredTracksTest = Courses.filter((c) =>
+  //   c.track?.includes("Javascript"),
+  // );
+  // console.log("Filtered Tracks:>>>>>>>>", filteredTracksTest);
   // const { enrolStatus } = useAuth();
 
   return (

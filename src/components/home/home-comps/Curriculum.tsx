@@ -1,5 +1,5 @@
-import { courses } from '@/data';
-import { Course } from '@/types';
+import { courses } from "@/data";
+import { Course } from "@/types";
 
 function CourseCard({ course }: { course: Course }) {
   return (
@@ -14,7 +14,9 @@ function CourseCard({ course }: { course: Course }) {
       <h3 className="text-lg font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">
         {course.name}
       </h3>
-      <p className="text-sm text-slate-400 leading-relaxed">{course.description}</p>
+      <p className="text-sm text-slate-400 leading-relaxed">
+        {course.description}
+      </p>
 
       {/* Hover accent line */}
       <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -32,10 +34,11 @@ export default function Curriculum() {
             Curriculum
           </span>
           <h2 className="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">
-            What You'll Learn
+            What You&apos;ll Learn
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Industry-aligned modules taught by engineers who build the products you use every day.
+            Industry-aligned modules taught by engineers who build the products
+            you use every day.
           </p>
         </div>
 
@@ -49,7 +52,8 @@ export default function Curriculum() {
         {/* Bottom CTA */}
         <div className="text-center mt-12">
           <p className="text-slate-400 text-sm">
-            All modules include live sessions, recorded replays, and hands-on capstone projects.
+            All modules include live sessions, recorded replays, and hands-on
+            capstone projects.
           </p>
         </div>
       </div>

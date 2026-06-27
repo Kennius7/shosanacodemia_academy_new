@@ -1,14 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import Header from "@/components/home/home-comps/Header";
+// import Header from "@/components/home/home-comps/Header";
 import { useApiMutation } from "@/hooks/useApiMutation";
 import { forgotPassword } from "@/services/api";
 import { Mail } from "lucide-react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 function ForgotPassword() {
-  const router = useRouter();
+  // const router = useRouter();
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string | null>(null);
 

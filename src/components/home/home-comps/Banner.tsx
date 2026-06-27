@@ -1,7 +1,8 @@
-'use client';
+/* eslint-disable react-hooks/set-state-in-effect */
+"use client";
 
-import { useState, useEffect } from 'react';
-import { BannerProps } from '@/types';
+import { useState, useEffect } from "react";
+import { BannerProps } from "@/types";
 
 interface TimeLeft {
   days: number;
@@ -21,19 +22,21 @@ function getTimeLeft(targetDate: string): TimeLeft {
   };
 }
 
-const DEFAULT_TARGET = '2026-09-01T00:00:00';
+const DEFAULT_TARGET = "2026-09-01T00:00:00";
 
 export default function Banner({ targetDate: initialDate }: BannerProps) {
   const [targetDate, setTargetDate] = useState(initialDate || DEFAULT_TARGET);
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>(() => getTimeLeft(initialDate || DEFAULT_TARGET));
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(() =>
+    getTimeLeft(initialDate || DEFAULT_TARGET),
+  );
 
   // Fetch cohort end date from API (Firestore via serverless)
   useEffect(() => {
     async function fetchCohortDate() {
       try {
-        const res = await fetch('/api/cohortEndDate');
+        const res = await fetch("/api/cohortEndDate");
         if (!res.ok) return;
-        const data = await res.json() as { endDate?: string };
+        const data = (await res.json()) as { endDate?: string };
         if (data.endDate) {
           setTargetDate(data.endDate);
         }
@@ -54,10 +57,10 @@ export default function Banner({ targetDate: initialDate }: BannerProps) {
   }, [targetDate]);
 
   const units = [
-    { label: 'Days', value: timeLeft.days },
-    { label: 'Hours', value: timeLeft.hours },
-    { label: 'Minutes', value: timeLeft.minutes },
-    { label: 'Seconds', value: timeLeft.seconds },
+    { label: "Days", value: timeLeft.days },
+    { label: "Hours", value: timeLeft.hours },
+    { label: "Minutes", value: timeLeft.minutes },
+    { label: "Seconds", value: timeLeft.seconds },
   ];
 
   return (
@@ -70,7 +73,7 @@ export default function Banner({ targetDate: initialDate }: BannerProps) {
             linear-gradient(rgba(6,182,212,1) 1px, transparent 1px),
             linear-gradient(90deg, rgba(6,182,212,1) 1px, transparent 1px)
           `,
-          backgroundSize: '60px 60px',
+          backgroundSize: "60px 60px",
         }}
       />
       {/* Radial glow */}
@@ -91,15 +94,16 @@ export default function Banner({ targetDate: initialDate }: BannerProps) {
 
         {/* Headline */}
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight mb-6">
-          Join the{' '}
+          Join the{" "}
           <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-500 bg-clip-text text-transparent">
             next cohort
           </span>
         </h1>
 
         <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mb-12">
-          Transform your career with intensive, project-driven software engineering training.
-          Mentored by engineers from world-class companies. Built for Africa's tech future.
+          Transform your career with intensive, project-driven software
+          engineering training. Mentored by engineers from world-class
+          companies. Built for Africa&apos;s tech future.
         </p>
 
         {/* CTA Buttons */}
@@ -125,9 +129,12 @@ export default function Banner({ targetDate: initialDate }: BannerProps) {
           </p>
           <div className="flex gap-4 sm:gap-8 justify-center">
             {units.map(({ label, value }) => (
-              <div key={label} className="text-center min-w-[56px] sm:min-w-[72px]">
+              <div
+                key={label}
+                className="text-center min-w-[56px] sm:min-w-[72px]"
+              >
                 <div className="text-3xl sm:text-5xl font-black text-white tabular-nums leading-none mb-2">
-                  {String(value).padStart(2, '0')}
+                  {String(value).padStart(2, "0")}
                 </div>
                 <div className="text-[10px] sm:text-xs font-semibold text-slate-500 uppercase tracking-widest">
                   {label}

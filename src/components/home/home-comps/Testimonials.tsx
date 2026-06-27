@@ -1,5 +1,5 @@
-import { testimonials } from '@/data';
-import { Testimonial } from '@/types';
+import { testimonials } from "@/data";
+import { Testimonial } from "@/types";
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -7,7 +7,7 @@ function StarRating({ rating }: { rating: number }) {
       {Array.from({ length: 5 }).map((_, i) => (
         <svg
           key={i}
-          className={`w-4 h-4 ${i < rating ? 'text-amber-400' : 'text-slate-700'}`}
+          className={`w-4 h-4 ${i < rating ? "text-amber-400" : "text-slate-700"}`}
           fill="currentColor"
           viewBox="0 0 20 20"
         >
@@ -22,7 +22,9 @@ export function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
     <div className="flex-shrink-0 w-80 sm:w-96 bg-[#0D1629] border border-slate-800 rounded-2xl p-7 hover:border-cyan-500/20 transition-colors duration-300">
       {/* Quote mark */}
-      <div className="text-5xl font-black text-cyan-500/20 leading-none mb-4 select-none">"</div>
+      <div className="text-5xl font-black text-cyan-500/20 leading-none mb-4 select-none">
+        &quot;
+      </div>
 
       <StarRating rating={testimonial.rating} />
 
@@ -35,8 +37,12 @@ export function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
           {testimonial.avatar}
         </div>
         <div>
-          <div className="text-sm font-semibold text-white">{testimonial.name}</div>
-          <div className="text-xs text-slate-500 mt-0.5">{testimonial.role}</div>
+          <div className="text-sm font-semibold text-white">
+            {testimonial.name}
+          </div>
+          <div className="text-xs text-slate-500 mt-0.5">
+            {testimonial.role}
+          </div>
         </div>
       </div>
     </div>
@@ -56,7 +62,8 @@ export default function Testimonials() {
             What Our Students Say
           </h2>
           <p className="text-slate-400 text-lg max-w-xl mx-auto">
-            Real outcomes from real engineers. No stock photos, no invented names.
+            Real outcomes from real engineers. No stock photos, no invented
+            names.
           </p>
         </div>
 

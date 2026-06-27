@@ -1,54 +1,63 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { ContactFormData } from '@/types';
+import { useState } from "react";
+import { ContactFormData } from "@/types";
 
 function validateEmail(email: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 export default function ContactUs() {
-  const [form, setForm] = useState<ContactFormData>({ name: '', email: '', message: '' });
+  const [form, setForm] = useState<ContactFormData>({
+    name: "",
+    email: "",
+    message: "",
+  });
   const [errors, setErrors] = useState<Partial<ContactFormData>>({});
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   function validate(): boolean {
     const newErrors: Partial<ContactFormData> = {};
-    if (!form.name.trim()) newErrors.name = 'Name is required.';
+    if (!form.name.trim()) newErrors.name = "Name is required.";
     if (!form.email.trim()) {
-      newErrors.email = 'Email is required.';
+      newErrors.email = "Email is required.";
     } else if (!validateEmail(form.email)) {
-      newErrors.email = 'Please enter a valid email address.';
+      newErrors.email = "Please enter a valid email address.";
     }
-    if (!form.message.trim()) newErrors.message = 'Message is required.';
+    if (!form.message.trim()) newErrors.message = "Message is required.";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
 
   async function handleSubmit() {
     if (!validate()) return;
-    setStatus('loading');
-    setErrorMsg('');
+    setStatus("loading");
+    setErrorMsg("");
 
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
 
       if (!res.ok) {
-        const data = await res.json() as { error?: string };
-        throw new Error(data.error ?? 'Something went wrong.');
+        const data = (await res.json()) as { error?: string };
+        throw new Error(data.error ?? "Something went wrong.");
       }
 
-      setStatus('success');
-      setForm({ name: '', email: '', message: '' });
+      setStatus("success");
+      setForm({ name: "", email: "", message: "" });
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
+      const msg =
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again.";
       setErrorMsg(msg);
-      setStatus('error');
+      setStatus("error");
     }
   }
 
@@ -70,22 +79,35 @@ export default function ContactUs() {
               Get In Touch
             </h2>
             <p className="text-slate-400 leading-relaxed mb-8">
-              Have questions about the curriculum, cohort dates, or financing options? Drop us a
-              message and we'll get back to you within 24 hours.
+              Have questions about the curriculum, cohort dates, or financing
+              options? Drop us a message and we&apos;ll get back to you within
+              24 hours.
             </p>
             <div className="space-y-4">
               {[
-                { icon: '📧', label: 'Email', value: 'hello@shosanacodemia.com' },
-                { icon: '📍', label: 'Location', value: 'Lagos, Nigeria (Remote-first)' },
-                { icon: '📞', label: 'Phone', value: '+234 800 000 0000' },
+                {
+                  icon: "📧",
+                  label: "Email",
+                  value: "hello@shosanacodemia.com",
+                },
+                {
+                  icon: "📍",
+                  label: "Location",
+                  value: "Lagos, Nigeria (Remote-first)",
+                },
+                { icon: "📞", label: "Phone", value: "+234 800 000 0000" },
               ].map(({ icon, label, value }) => (
                 <div key={label} className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-lg">
                     {icon}
                   </div>
                   <div>
-                    <div className="text-xs text-slate-500 uppercase tracking-wider">{label}</div>
-                    <div className="text-sm text-slate-300 font-medium">{value}</div>
+                    <div className="text-xs text-slate-500 uppercase tracking-wider">
+                      {label}
+                    </div>
+                    <div className="text-sm text-slate-300 font-medium">
+                      {value}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -94,15 +116,17 @@ export default function ContactUs() {
 
           {/* Form */}
           <div className="bg-[#0D1629] border border-slate-800 rounded-2xl p-8">
-            {status === 'success' ? (
+            {status === "success" ? (
               <div className="text-center py-8">
                 <div className="text-5xl mb-4">✅</div>
-                <h3 className="text-xl font-bold text-white mb-2">Message Sent!</h3>
+                <h3 className="text-xl font-bold text-white mb-2">
+                  Message Sent!
+                </h3>
                 <p className="text-slate-400 text-sm mb-6">
-                  We'll get back to you within 24 hours.
+                  We&apos;ll get back to you within 24 hours.
                 </p>
                 <button
-                  onClick={() => setStatus('idle')}
+                  onClick={() => setStatus("idle")}
                   className="px-6 py-2.5 text-sm font-medium border border-slate-700 text-slate-300 rounded-xl hover:border-cyan-500/50 hover:text-white transition-all"
                 >
                   Send Another
@@ -110,7 +134,7 @@ export default function ContactUs() {
               </div>
             ) : (
               <div className="space-y-5">
-                {status === 'error' && (
+                {status === "error" && (
                   <div className="p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-sm text-red-400">
                     {errorMsg}
                   </div>
@@ -124,11 +148,13 @@ export default function ContactUs() {
                   <input
                     type="text"
                     value={form.name}
-                    onChange={(e) => handleChange('name', e.target.value)}
+                    onChange={(e) => handleChange("name", e.target.value)}
                     placeholder="Chidi Eze"
-                    className={`w-full px-4 py-3 bg-[#0A0F1E] border ${errors.name ? 'border-red-500' : 'border-slate-700 focus:border-cyan-500'} rounded-xl text-white placeholder-slate-600 text-sm outline-none transition-colors`}
+                    className={`w-full px-4 py-3 bg-[#0A0F1E] border ${errors.name ? "border-red-500" : "border-slate-700 focus:border-cyan-500"} rounded-xl text-white placeholder-slate-600 text-sm outline-none transition-colors`}
                   />
-                  {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name}</p>}
+                  {errors.name && (
+                    <p className="mt-1 text-xs text-red-400">{errors.name}</p>
+                  )}
                 </div>
 
                 {/* Email */}
@@ -139,11 +165,13 @@ export default function ContactUs() {
                   <input
                     type="email"
                     value={form.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
+                    onChange={(e) => handleChange("email", e.target.value)}
                     placeholder="chidi@example.com"
-                    className={`w-full px-4 py-3 bg-[#0A0F1E] border ${errors.email ? 'border-red-500' : 'border-slate-700 focus:border-cyan-500'} rounded-xl text-white placeholder-slate-600 text-sm outline-none transition-colors`}
+                    className={`w-full px-4 py-3 bg-[#0A0F1E] border ${errors.email ? "border-red-500" : "border-slate-700 focus:border-cyan-500"} rounded-xl text-white placeholder-slate-600 text-sm outline-none transition-colors`}
                   />
-                  {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email}</p>}
+                  {errors.email && (
+                    <p className="mt-1 text-xs text-red-400">{errors.email}</p>
+                  )}
                 </div>
 
                 {/* Message */}
@@ -154,21 +182,23 @@ export default function ContactUs() {
                   <textarea
                     rows={4}
                     value={form.message}
-                    onChange={(e) => handleChange('message', e.target.value)}
+                    onChange={(e) => handleChange("message", e.target.value)}
                     placeholder="Tell us about yourself and your goals…"
-                    className={`w-full px-4 py-3 bg-[#0A0F1E] border ${errors.message ? 'border-red-500' : 'border-slate-700 focus:border-cyan-500'} rounded-xl text-white placeholder-slate-600 text-sm outline-none transition-colors resize-none`}
+                    className={`w-full px-4 py-3 bg-[#0A0F1E] border ${errors.message ? "border-red-500" : "border-slate-700 focus:border-cyan-500"} rounded-xl text-white placeholder-slate-600 text-sm outline-none transition-colors resize-none`}
                   />
                   {errors.message && (
-                    <p className="mt-1 text-xs text-red-400">{errors.message}</p>
+                    <p className="mt-1 text-xs text-red-400">
+                      {errors.message}
+                    </p>
                   )}
                 </div>
 
                 <button
                   onClick={handleSubmit}
-                  disabled={status === 'loading'}
+                  disabled={status === "loading"}
                   className="w-full py-3.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all duration-200 shadow-lg shadow-cyan-500/20"
                 >
-                  {status === 'loading' ? 'Sending…' : 'Send Message →'}
+                  {status === "loading" ? "Sending…" : "Send Message →"}
                 </button>
               </div>
             )}

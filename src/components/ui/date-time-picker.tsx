@@ -14,10 +14,14 @@ interface DateTimePickerProps {
   className?: string;
 }
 
-export function DateTimePicker({ date, setDate, className }: DateTimePickerProps) {
+export function DateTimePicker({
+  date,
+  setDate,
+  className,
+}: DateTimePickerProps) {
   // Initialize time from date prop or default to current time
   const [selectedTime, setSelectedTime] = React.useState<string>(
-    date ? format(date, "HH:mm") : format(new Date(), "HH:mm")
+    date ? format(date, "HH:mm") : format(new Date(), "HH:mm"),
   );
 
   // Handle calendar date selection
@@ -34,7 +38,7 @@ export function DateTimePicker({ date, setDate, className }: DateTimePickerProps
   const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newTime = e.target.value;
     setSelectedTime(newTime);
-    
+
     if (date) {
       const [hours, minutes] = newTime.split(":").map(Number);
       const newDate = new Date(date);
@@ -52,7 +56,7 @@ export function DateTimePicker({ date, setDate, className }: DateTimePickerProps
           className={cn(
             "w-full justify-start text-left font-normal",
             !date && "text-muted-foreground",
-            className
+            className,
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
@@ -79,10 +83,10 @@ export function DateTimePicker({ date, setDate, className }: DateTimePickerProps
           mode="single"
           selected={date}
           onSelect={handleDateSelect}
-          initialFocus 
+          // initialFocus
           className=""
         />
       </PopoverContent>
     </Popover>
   );
-} 
+}
