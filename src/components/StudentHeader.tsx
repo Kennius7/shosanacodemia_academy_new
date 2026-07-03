@@ -1,7 +1,6 @@
 import { EnrolStatus } from "@/types";
-import React from "react";
 import TrackBanner from "./TrackBanner";
-import { useAuth } from "@/context/AuthContext";
+import { useMain } from "@/context/MainContext";
 
 interface StudentHeaderProps {
   title: string;
@@ -10,7 +9,7 @@ interface StudentHeaderProps {
 }
 
 function StudentHeader({ title, subtitle, enrolStatus }: StudentHeaderProps) {
-  const { activeTrack } = useAuth();
+  const { activeTrack } = useMain();
 
   return (
     <div className="mb-6 flex justify-between items-end">

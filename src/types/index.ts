@@ -1,9 +1,48 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export type LoginUserState = "student" | "instructor" | "admin";
 export type RoleType = "user" | "instructor" | "admin";
 export type Level = "Foundational" | "Intermediate" | "Advanced" | "Expert";
 export type Track = "Frontend" | "Backend" | "Fullstack" | "DevOps" | "Systems";
+export type CourseTrack =
+  | "Front End Web Development"
+  | "Back End Engineering"
+  | "Full Stack Engineering"
+  | "Mobile App Development"
+  | "DevOps & CI/CD";
 export type EnrolStatus = "Pending" | "Paid" | "Enrolled" | "Granted";
+export type PlanTier = "Free" | "Live" | "Online";
+export type InvoiceStatus = "Paid" | "Pending" | "Failed";
+export type CardBrand = "Visa" | "Mastercard" | "Verve";
+
+export interface Plan {
+  id: PlanTier;
+  label: string;
+  price: number;
+  period: string;
+  features: string[];
+  gradColor: string;
+  accentColor: string;
+  badge?: string;
+}
+
+export interface SavedCard {
+  id: string;
+  brand: CardBrand;
+  last4: string;
+  expiry: string;
+  isDefault: boolean;
+}
+
+export interface Invoice {
+  id: string;
+  studentId: string;
+  studentName: string;
+  courseTrack: CourseTrack;
+  plan: PlanTier;
+  description: string;
+  amount: number;
+  date: string;
+  status: InvoiceStatus;
+}
 
 export interface Lesson {
   id: string;
@@ -55,14 +94,44 @@ export interface Course {
   rawGradColor2?: string;
 }
 
+export interface ResourceNotesType {
+  id: string;
+  title: string;
+  content: string;
+  imageUrl: string;
+}
+
+export interface ResourceType {
+  id: string;
+  topic: string;
+  notes: Array<ResourceNotesType>;
+}
+
 export interface ResourceListType {
+  id: string;
   name: string;
+  description: string;
   shortName: string;
-  data: Array<any>;
+  data: Array<ResourceType>;
   color: string;
   gradColor: string;
   activeBg: string;
   inactiveBg: string;
+}
+
+export interface StudentDataType {
+  id: string;
+  studentId: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  whatsappNumber: string;
+  courseTrack: CourseTrack;
+  isPaid: boolean;
+  isEnrolled: boolean;
+  discount: number;
+  cohort: string;
+  createdAt: string;
 }
 
 export interface Benefit {
@@ -121,4 +190,36 @@ export interface RegisterUserProps {
 export interface LoginUserProps {
   email: string;
   password: string;
+}
+
+export interface SubMenuItem {
+  name: string;
+  icon: React.ElementType;
+  href: string;
+}
+
+export interface SidebarItem {
+  name: string;
+  icon: React.ElementType;
+  href: string;
+  submenu?: SubMenuItem[];
+}
+
+export interface MockLesson {
+  id: number;
+  title: string;
+  duration: string;
+  completed: boolean;
+}
+
+export interface MockCourse {
+  id: number;
+  title: string;
+  instructor: string;
+  instructorRole: string;
+  progress: number; // 0–100
+  totalLessons: number;
+  completedLessons: number;
+  lessons: MockLesson[];
+  discussionCount: number;
 }

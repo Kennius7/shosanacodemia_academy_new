@@ -1,8 +1,8 @@
 "use client";
 
-import { Courses } from "@/data";
 import { persistToken, persistUser } from "@/lib/utils";
-import { Course, EnrolStatus, LoginUserState, User } from "@/types";
+import { EnrolStatus, LoginUserState, User } from "@/types";
+import { usePathname } from "next/navigation";
 import React, {
   createContext,
   Dispatch,
@@ -19,7 +19,7 @@ type AuthContextType = {
   setToken: Dispatch<SetStateAction<string | null>>;
   loading: boolean;
   logout: () => Promise<void>;
-  activeTrack: Course;
+  // activeTrack: Course;
   enrolStatus: EnrolStatus;
   setEnrolStatus: Dispatch<SetStateAction<EnrolStatus>>;
   accountType: LoginUserState;
@@ -28,13 +28,20 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  // console.log("Path Name:>>>>>>>>>>>", pathname);
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [enrolStatus, setEnrolStatus] = useState<EnrolStatus>("Enrolled");
-  const activeTrack = Courses[1];
-  const accountType: LoginUserState = user?.accountType ?? "student";
-  // const accountType: LoginUserState = user?.accountType ?? "admin";
+  // const activeTrack = Courses[1];
+  const accountType: LoginUserState = user?.accountType
+    ? user?.accountType
+    : pathname.includes("student") && !pathname.includes("admin")
+      ? "student"
+      : pathname.includes("admin")
+        ? "admin"
+        : "instructor";
 
   // On mount, try to restore a previous session from localStorage
   useEffect(() => {
@@ -76,7 +83,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setToken,
     loading,
     logout,
-    activeTrack,
+    // activeTrack,
     enrolStatus,
     setEnrolStatus,
     accountType,

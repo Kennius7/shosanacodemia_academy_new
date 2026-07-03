@@ -1,12 +1,171 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { STUDENTS_DATA } from "@/data";
 import { useState } from "react";
 import ProgressRing from "@/components/ProgressRing";
+import { useAuth } from "@/context/AuthContext";
 import AdminHeader from "@/components/AdminHeader";
-import { useMain } from "@/context/MainContext";
-import { MockCourse } from "@/types";
-import { MOCK_COURSES } from "@/data";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+interface Lesson {
+  id: number;
+  title: string;
+  duration: string;
+  completed: boolean;
+}
+
+interface Course {
+  id: number;
+  title: string;
+  instructor: string;
+  instructorRole: string;
+  progress: number; // 0–100
+  totalLessons: number;
+  completedLessons: number;
+  lessons: Lesson[];
+  discussionCount: number;
+}
+
+// ─── Mock data (replace with API) ────────────────────────────────────────────
+
+const MOCK_COURSES: Course[] = [
+  {
+    id: 1,
+    title: "Intro to Computer Science",
+    instructor: "Dr. Amara Nwosu",
+    instructorRole: "Senior CS Lecturer",
+    progress: 42,
+    totalLessons: 12,
+    completedLessons: 5,
+    discussionCount: 14,
+    lessons: [
+      {
+        id: 1,
+        title: "What is a Computer?",
+        duration: "8 min",
+        completed: true,
+      },
+      {
+        id: 2,
+        title: "Binary & Number Systems",
+        duration: "12 min",
+        completed: true,
+      },
+      {
+        id: 3,
+        title: "Logic Gates & Circuits",
+        duration: "15 min",
+        completed: true,
+      },
+      { id: 4, title: "Memory & Storage", duration: "10 min", completed: true },
+      { id: 5, title: "How CPUs Work", duration: "18 min", completed: true },
+      {
+        id: 6,
+        title: "Operating Systems Overview",
+        duration: "14 min",
+        completed: false,
+      },
+      {
+        id: 7,
+        title: "File Systems & I/O",
+        duration: "11 min",
+        completed: false,
+      },
+      {
+        id: 8,
+        title: "Intro to Algorithms",
+        duration: "20 min",
+        completed: false,
+      },
+      {
+        id: 9,
+        title: "Data Structures Basics",
+        duration: "22 min",
+        completed: false,
+      },
+      {
+        id: 10,
+        title: "Networking Fundamentals",
+        duration: "16 min",
+        completed: false,
+      },
+      {
+        id: 11,
+        title: "Security & Encryption",
+        duration: "13 min",
+        completed: false,
+      },
+      {
+        id: 12,
+        title: "The Future of Computing",
+        duration: "9 min",
+        completed: false,
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: "Web Design Fundamentals",
+    instructor: "Kofi Mensah",
+    instructorRole: "UI/UX Designer & Instructor",
+    progress: 75,
+    totalLessons: 8,
+    completedLessons: 6,
+    discussionCount: 22,
+    lessons: [
+      {
+        id: 1,
+        title: "Colour Theory for the Web",
+        duration: "10 min",
+        completed: true,
+      },
+      {
+        id: 2,
+        title: "Typography That Works",
+        duration: "12 min",
+        completed: true,
+      },
+      {
+        id: 3,
+        title: "Layout & Grid Systems",
+        duration: "14 min",
+        completed: true,
+      },
+      {
+        id: 4,
+        title: "Spacing & Visual Rhythm",
+        duration: "9 min",
+        completed: true,
+      },
+      {
+        id: 5,
+        title: "Component Design Patterns",
+        duration: "16 min",
+        completed: true,
+      },
+      {
+        id: 6,
+        title: "Responsive Design",
+        duration: "18 min",
+        completed: true,
+      },
+      {
+        id: 7,
+        title: "Dark Mode & Theming",
+        duration: "11 min",
+        completed: false,
+      },
+      {
+        id: 8,
+        title: "Design Handoff to Dev",
+        duration: "13 min",
+        completed: false,
+      },
+    ],
+  },
+];
 
 function CourseCard({
   course,
@@ -17,7 +176,7 @@ function CourseCard({
   onSelect,
   onNavigate,
 }: {
-  course: MockCourse;
+  course: Course;
   isActive: boolean;
   gradColor: string;
   rawGradColor1: string;
@@ -89,13 +248,16 @@ function CourseCard({
   );
 }
 
+// ─── Lesson List ──────────────────────────────────────────────────────────────
+
 function LessonList({
   course,
   gradColor,
   onNavigate,
 }: {
-  course: MockCourse;
+  course: Course;
   gradColor: string;
+  // eslint-disable-next-line no-unused-vars
   onNavigate: (courseId: number, lessonId: number) => void;
 }) {
   const currentLessonIndex = course.lessons.findIndex((l) => !l.completed);
@@ -171,11 +333,13 @@ function LessonList({
   );
 }
 
+// ─── Instructor Card ──────────────────────────────────────────────────────────
+
 function InstructorCard({
   course,
   gradColor,
 }: {
-  course: MockCourse;
+  course: Course;
   gradColor: string;
 }) {
   return (
@@ -204,12 +368,14 @@ function InstructorCard({
   );
 }
 
+// ─── Discussion Card ──────────────────────────────────────────────────────────
+
 function DiscussionCard({
   course,
   gradColor,
   onNavigate,
 }: {
-  course: MockCourse;
+  course: Course;
   gradColor: string;
   onNavigate: () => void;
 }) {
@@ -236,13 +402,16 @@ function DiscussionCard({
   );
 }
 
+// ─── Next Lesson CTA ──────────────────────────────────────────────────────────
+
 function NextLessonCTA({
   course,
   gradColor,
   onNavigate,
 }: {
-  course: MockCourse;
+  course: Course;
   gradColor: string;
+  // eslint-disable-next-line no-unused-vars
   onNavigate: (courseId: number, lessonId: number) => void;
 }) {
   const nextLesson = course.lessons.find((l) => !l.completed);
@@ -277,20 +446,19 @@ function NextLessonCTA({
   );
 }
 
-export default function CourseDetails() {
+export default function StudentDetails() {
   const router = useRouter();
-  const { liveResources, activeTrack } = useMain();
-  const searchParams = useSearchParams();
-  const name = searchParams.get("name");
-  const resourceName = decodeURIComponent(name || "");
-  const fetchedResourceData = liveResources.find(
-    (res) => res.name === resourceName,
+  const params = useParams();
+  const studentId = params.studentId;
+  const filteredStudentData = STUDENTS_DATA.find(
+    (student) => student.studentId === studentId,
   );
 
   const [activeCourseId, setActiveCourseId] = useState<number>(
     MOCK_COURSES[0].id,
   );
 
+  const { activeTrack } = useAuth();
   const activeCourse =
     MOCK_COURSES.find((c) => c.id === activeCourseId) ?? MOCK_COURSES[0];
 
@@ -309,8 +477,13 @@ export default function CourseDetails() {
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 overflow-y-auto p-4 sm:p-6">
           <AdminHeader
-            title={fetchedResourceData?.name || ""}
-            subtitle={fetchedResourceData?.description || ""}
+            title={
+              "Student Name: " +
+              filteredStudentData?.firstName +
+              " " +
+              filteredStudentData?.lastName
+            }
+            subtitle={"Email: " + filteredStudentData?.email || ""}
           />
 
           {/* Sticky track banner */}

@@ -1,10 +1,10 @@
 "use client";
 
-import CourseTable from "@/components/CourseTable";
 import SectionHeader from "@/components/SectionHeader";
+import StudentsTable from "@/components/StudentsTable";
 import { useMain } from "@/context/MainContext";
 
-export default function AdminCourseManagement() {
+export default function AdminStudentsManagement() {
   const { liveResources } = useMain();
 
   return (
@@ -14,10 +14,10 @@ export default function AdminCourseManagement() {
         <main className="flex-1 overflow-y-auto p-4 sm:p-6">
           <div className="mb-6">
             <SectionHeader
-              title={"Courses Offered" + ` (${liveResources.length})`}
+              title={"Students enrolled" + ` (${liveResources.length})`}
             />
 
-            <CourseTable isDashboardView={false} />
+            <StudentsTable isDashboardView={false} />
           </div>
         </main>
       </div>

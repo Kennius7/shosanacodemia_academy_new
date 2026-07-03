@@ -1,10 +1,7 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-
-// interface ApiError {
-//   message: string;
-// }
 
 interface MutationOptions<TData, TVariables> {
   mutationKey: string[];

@@ -3,7 +3,9 @@
 import AdminHeader from "@/components/AdminHeader";
 import CourseTable from "@/components/CourseTable";
 import SectionHeader from "@/components/SectionHeader";
-import { ResourceList } from "@/data";
+import StudentsTable from "@/components/StudentsTable";
+import { useMain } from "@/context/MainContext";
+import { STUDENTS_DATA } from "@/data";
 import { BookA, BookCheck, Calendar, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -86,11 +88,7 @@ function StatsRow() {
 
 export default function AdminDashboard() {
   const router = useRouter();
-  // const filteredTracksTest = Courses.filter((c) =>
-  //   c.track?.includes("Javascript"),
-  // );
-  // console.log("Filtered Tracks:>>>>>>>>", filteredTracksTest);
-  // const { enrolStatus } = useAuth();
+  const { liveResources } = useMain();
 
   return (
     <div className="min-h-screen bg-[#080F1E] flex pt-20">
@@ -99,7 +97,7 @@ export default function AdminDashboard() {
         <main className="flex-1 overflow-y-auto p-4 sm:p-6">
           <AdminHeader
             title={"Hi, " + USER.name}
-            subtitle="Pick up where you left off."
+            subtitle="View and manage your admin console"
           />
 
           <div className="mb-12">
@@ -108,7 +106,17 @@ export default function AdminDashboard() {
 
           <div className="mb-6">
             <SectionHeader
-              title={"Courses Offered" + ` (${ResourceList.length})`}
+              title={"Students enrolled" + ` (${STUDENTS_DATA.length})`}
+              action={() => router.push("/admin/students")}
+              actionLabel="Manage Students"
+            />
+
+            <StudentsTable isDashboardView={true} />
+          </div>
+
+          <div className="mb-6">
+            <SectionHeader
+              title={"Courses Offered" + ` (${liveResources.length})`}
               action={() => router.push("/admin/courses")}
               actionLabel="Manage Courses"
             />

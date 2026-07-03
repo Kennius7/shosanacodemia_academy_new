@@ -1,171 +1,12 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { ResourceList } from "@/data";
 import { useState } from "react";
 import ProgressRing from "@/components/ProgressRing";
-import { useAuth } from "@/context/AuthContext";
 import AdminHeader from "@/components/AdminHeader";
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-interface Lesson {
-  id: number;
-  title: string;
-  duration: string;
-  completed: boolean;
-}
-
-interface Course {
-  id: number;
-  title: string;
-  instructor: string;
-  instructorRole: string;
-  progress: number; // 0–100
-  totalLessons: number;
-  completedLessons: number;
-  lessons: Lesson[];
-  discussionCount: number;
-}
-
-// ─── Mock data (replace with API) ────────────────────────────────────────────
-
-const MOCK_COURSES: Course[] = [
-  {
-    id: 1,
-    title: "Intro to Computer Science",
-    instructor: "Dr. Amara Nwosu",
-    instructorRole: "Senior CS Lecturer",
-    progress: 42,
-    totalLessons: 12,
-    completedLessons: 5,
-    discussionCount: 14,
-    lessons: [
-      {
-        id: 1,
-        title: "What is a Computer?",
-        duration: "8 min",
-        completed: true,
-      },
-      {
-        id: 2,
-        title: "Binary & Number Systems",
-        duration: "12 min",
-        completed: true,
-      },
-      {
-        id: 3,
-        title: "Logic Gates & Circuits",
-        duration: "15 min",
-        completed: true,
-      },
-      { id: 4, title: "Memory & Storage", duration: "10 min", completed: true },
-      { id: 5, title: "How CPUs Work", duration: "18 min", completed: true },
-      {
-        id: 6,
-        title: "Operating Systems Overview",
-        duration: "14 min",
-        completed: false,
-      },
-      {
-        id: 7,
-        title: "File Systems & I/O",
-        duration: "11 min",
-        completed: false,
-      },
-      {
-        id: 8,
-        title: "Intro to Algorithms",
-        duration: "20 min",
-        completed: false,
-      },
-      {
-        id: 9,
-        title: "Data Structures Basics",
-        duration: "22 min",
-        completed: false,
-      },
-      {
-        id: 10,
-        title: "Networking Fundamentals",
-        duration: "16 min",
-        completed: false,
-      },
-      {
-        id: 11,
-        title: "Security & Encryption",
-        duration: "13 min",
-        completed: false,
-      },
-      {
-        id: 12,
-        title: "The Future of Computing",
-        duration: "9 min",
-        completed: false,
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Web Design Fundamentals",
-    instructor: "Kofi Mensah",
-    instructorRole: "UI/UX Designer & Instructor",
-    progress: 75,
-    totalLessons: 8,
-    completedLessons: 6,
-    discussionCount: 22,
-    lessons: [
-      {
-        id: 1,
-        title: "Colour Theory for the Web",
-        duration: "10 min",
-        completed: true,
-      },
-      {
-        id: 2,
-        title: "Typography That Works",
-        duration: "12 min",
-        completed: true,
-      },
-      {
-        id: 3,
-        title: "Layout & Grid Systems",
-        duration: "14 min",
-        completed: true,
-      },
-      {
-        id: 4,
-        title: "Spacing & Visual Rhythm",
-        duration: "9 min",
-        completed: true,
-      },
-      {
-        id: 5,
-        title: "Component Design Patterns",
-        duration: "16 min",
-        completed: true,
-      },
-      {
-        id: 6,
-        title: "Responsive Design",
-        duration: "18 min",
-        completed: true,
-      },
-      {
-        id: 7,
-        title: "Dark Mode & Theming",
-        duration: "11 min",
-        completed: false,
-      },
-      {
-        id: 8,
-        title: "Design Handoff to Dev",
-        duration: "13 min",
-        completed: false,
-      },
-    ],
-  },
-];
+import { MOCK_COURSES } from "@/data";
+import { MockCourse } from "@/types";
+import { useMain } from "@/context/MainContext";
 
 function CourseCard({
   course,
@@ -176,7 +17,7 @@ function CourseCard({
   onSelect,
   onNavigate,
 }: {
-  course: Course;
+  course: MockCourse;
   isActive: boolean;
   gradColor: string;
   rawGradColor1: string;
@@ -255,7 +96,7 @@ function LessonList({
   gradColor,
   onNavigate,
 }: {
-  course: Course;
+  course: MockCourse;
   gradColor: string;
   onNavigate: (courseId: number, lessonId: number) => void;
 }) {
@@ -338,7 +179,7 @@ function InstructorCard({
   course,
   gradColor,
 }: {
-  course: Course;
+  course: MockCourse;
   gradColor: string;
 }) {
   return (
@@ -374,7 +215,7 @@ function DiscussionCard({
   gradColor,
   onNavigate,
 }: {
-  course: Course;
+  course: MockCourse;
   gradColor: string;
   onNavigate: () => void;
 }) {
@@ -408,7 +249,7 @@ function NextLessonCTA({
   gradColor,
   onNavigate,
 }: {
-  course: Course;
+  course: MockCourse;
   gradColor: string;
   onNavigate: (courseId: number, lessonId: number) => void;
 }) {
@@ -446,10 +287,11 @@ function NextLessonCTA({
 
 export default function EditCourse() {
   const router = useRouter();
+  const { activeTrack, liveResources } = useMain();
   const searchParams = useSearchParams();
   const name = searchParams.get("name");
   const resourceName = decodeURIComponent(name || "");
-  const fetchedResourceData = ResourceList.find(
+  const fetchedResourceData = liveResources.find(
     (res) => res.name === resourceName,
   );
 
@@ -457,7 +299,6 @@ export default function EditCourse() {
     MOCK_COURSES[0].id,
   );
 
-  const { activeTrack } = useAuth();
   const activeCourse =
     MOCK_COURSES.find((c) => c.id === activeCourseId) ?? MOCK_COURSES[0];
 

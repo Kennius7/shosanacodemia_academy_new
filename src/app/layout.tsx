@@ -3,6 +3,7 @@ import "../globals.css";
 import { Toaster } from "sonner";
 import QueryProvider from "@/components/provider/QueryProvider";
 import { AuthProvider } from "@/context/AuthContext";
+import { MainProvider } from "@/context/MainContext";
 
 export const metadata: Metadata = {
   title: "Shosanacodemia — Train. Build. Get Hired.",
@@ -41,12 +42,14 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-screen bg-[#050A14]">
         <AuthProvider>
-          <QueryProvider>
-            {children}
-            <div className="fixed z-60 top-8 right-4">
-              <Toaster position="top-right" richColors />
-            </div>
-          </QueryProvider>
+          <MainProvider>
+            <QueryProvider>
+              {children}
+              <div className="fixed z-60 top-8 right-4">
+                <Toaster position="top-right" richColors />
+              </div>
+            </QueryProvider>
+          </MainProvider>
         </AuthProvider>
       </body>
     </html>

@@ -66,7 +66,12 @@ export default function Header() {
               ) : user ? (
                 <div className="flex items-center gap-3">
                   <span className="text-sm text-slate-400 max-w-[140px] truncate">
-                    Hi, {user.fullName?.split(" ")[0]}
+                    Hi,{" "}
+                    {
+                      ((user && user?.fullName) || "Shosan Boggs")?.split(
+                        " ",
+                      )[0]
+                    }
                   </span>
                   {/* <button
                     onClick={logout}
@@ -93,10 +98,10 @@ export default function Header() {
                       <Avatar className="h-10 w-10 bg-[#050A14] border border-gray-600">
                         <AvatarImage
                           src={user?.avatar || "/placeholder.svg"}
-                          alt={user?.fullName}
+                          alt={(user && user?.fullName) || "Shosan Boggs"}
                         />
                         <AvatarFallback>
-                          {user?.fullName
+                          {((user && user?.fullName) || "Shosan Boggs")
                             ?.split(" ")
                             ?.map((n: any) => n[0])
                             ?.join("")

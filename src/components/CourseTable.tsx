@@ -8,12 +8,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Courses, ResourceList } from "@/data";
+import { Courses } from "@/data";
 import { ResourceListType } from "@/types";
 import { BookIcon, EditIcon, LoaderIcon, Trash2 } from "lucide-react";
 import { ellipsis } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { useMain } from "@/context/MainContext";
 
 export default function CourseTable({
   isDashboardView,
@@ -21,6 +22,7 @@ export default function CourseTable({
   isDashboardView: boolean;
 }) {
   const router = useRouter();
+  const { liveResources } = useMain();
   const [resourceData, setResourceData] = useState<Array<any>>([]);
   const [activeName, setActiveName] = useState<string>("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -28,14 +30,14 @@ export default function CourseTable({
   useEffect(() => {
     const loadResource = setTimeout(() => {
       if (isDashboardView) {
-        setResourceData(ResourceList.slice(0, 3));
+        setResourceData(liveResources.slice(0, 3));
       } else {
-        setResourceData(ResourceList);
+        setResourceData(liveResources);
       }
     }, 3000);
 
     return () => clearTimeout(loadResource);
-  }, [isDashboardView]);
+  }, [isDashboardView, liveResources]);
 
   const getTrack = (courseName: string) => {
     const filteredTracks = Courses.filter((c) => c.track?.includes(courseName));
@@ -45,14 +47,19 @@ export default function CourseTable({
         filteredTracks.map((track) => (
           <div
             key={track.id}
-            className="text-xs w-fit border border-slate-800 rounded-sm py-1 
-            px-2 cursor-pointer hover:bg-cyan-400/10"
+            className="text-xs text-center w-[100px] border border-slate-800 rounded-sm py-1 
+            cursor-pointer hover:bg-cyan-400/10"
           >
-            {ellipsis(track.name, 10)}
+            {ellipsis(track.name, 13)}
           </div>
         ))
       ) : (
-        <p className="text-xs">General Notes</p>
+        <div
+          className="text-xs text-center w-[100px] border border-slate-800 rounded-sm py-1 
+          px-2 cursor-pointer hover:bg-cyan-400/10"
+        >
+          General Notes
+        </div>
       );
 
     return track;

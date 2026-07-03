@@ -4,8 +4,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import ProgressRing from "@/components/ProgressRing";
 import AdminHeader from "@/components/AdminHeader";
-import { useMain } from "@/context/MainContext";
 import { MockCourse } from "@/types";
+import { useMain } from "@/context/MainContext";
 import { MOCK_COURSES } from "@/data";
 
 function CourseCard({
@@ -89,6 +89,8 @@ function CourseCard({
   );
 }
 
+// ─── Lesson List ──────────────────────────────────────────────────────────────
+
 function LessonList({
   course,
   gradColor,
@@ -171,6 +173,8 @@ function LessonList({
   );
 }
 
+// ─── Instructor Card ──────────────────────────────────────────────────────────
+
 function InstructorCard({
   course,
   gradColor,
@@ -204,6 +208,8 @@ function InstructorCard({
   );
 }
 
+// ─── Discussion Card ──────────────────────────────────────────────────────────
+
 function DiscussionCard({
   course,
   gradColor,
@@ -235,6 +241,8 @@ function DiscussionCard({
     </button>
   );
 }
+
+// ─── Next Lesson CTA ──────────────────────────────────────────────────────────
 
 function NextLessonCTA({
   course,
@@ -277,7 +285,7 @@ function NextLessonCTA({
   );
 }
 
-export default function CourseDetails() {
+export default function EditCourse() {
   const router = useRouter();
   const { liveResources, activeTrack } = useMain();
   const searchParams = useSearchParams();
@@ -309,8 +317,8 @@ export default function CourseDetails() {
       <div className="flex-1 flex flex-col min-w-0">
         <main className="flex-1 overflow-y-auto p-4 sm:p-6">
           <AdminHeader
-            title={fetchedResourceData?.name || ""}
-            subtitle={fetchedResourceData?.description || ""}
+            title={"Edit: " + fetchedResourceData?.name || ""}
+            subtitle={"Update course details below"}
           />
 
           {/* Sticky track banner */}

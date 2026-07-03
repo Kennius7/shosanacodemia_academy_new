@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import moment from "moment-timezone";
-import { toast } from "sonner";
+// import { toast } from "sonner";
 import { User } from "@/types";
 import { Dispatch, SetStateAction } from "react";
 
@@ -111,6 +111,20 @@ export function getDateDiff(start: Date, end: Date): string {
 //   }
 // };
 
+export const saveArrayToLocalStorage = (key: string, array: unknown[]) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem(key, JSON.stringify(array));
+  }
+};
+
+export const getArrayFromLocalStorage = (key: string): unknown[] | [] => {
+  if (typeof window !== "undefined") {
+    const stored = localStorage.getItem(key);
+    return stored ? JSON.parse(stored) : [];
+  }
+  return [];
+};
+
 export const saveObjectToLocalStorage = (key: string, object: object) => {
   if (typeof window !== "undefined") {
     localStorage.setItem(key, JSON.stringify(object));
@@ -166,3 +180,8 @@ export const persistToken = (
   }
   setToken(userToken);
 };
+
+export const formatter = new Intl.NumberFormat("en-NG", {
+  style: "currency",
+  currency: "NGN",
+});
