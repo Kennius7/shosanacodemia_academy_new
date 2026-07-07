@@ -15,14 +15,13 @@ import {
 import { PLANS } from "@/data";
 import { formatter } from "@/lib/utils";
 import { useMain } from "@/context/MainContext";
-import { useAuth } from "@/context/AuthContext";
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
 /** Current plan summary banner */
 function CurrentPlanBanner() {
   const { selected } = useMain();
-  const { activeTrack } = useAuth();
+  const { activeTrack } = useMain();
   const plan = PLANS.find((p) => p.id === selected)!;
 
   return (
