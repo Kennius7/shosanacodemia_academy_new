@@ -1,4 +1,4 @@
-import { partners } from '@/data';
+import { partners } from "@/data";
 
 export default function Partners() {
   return (
@@ -12,7 +12,9 @@ export default function Partners() {
           {partners.map((partner) => (
             <div
               key={partner.id}
-              className="group aspect-[2/1] bg-[#0D1629] border border-slate-800 hover:border-slate-600 rounded-xl flex items-center justify-center transition-all duration-300 grayscale hover:grayscale-0"
+              className="group aspect-[2/1] bg-[#0D1629] border border-slate-800 
+              hover:border-slate-600 rounded-xl flex items-center justify-center 
+              transition-all duration-300 grayscale hover:grayscale-0 cursor-pointer"
             >
               <div className="text-center px-3">
                 <div

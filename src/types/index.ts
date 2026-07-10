@@ -12,6 +12,20 @@ export type EnrolStatus = "Pending" | "Paid" | "Enrolled" | "Granted";
 export type PlanTier = "Free" | "Live" | "Online";
 export type InvoiceStatus = "Paid" | "Pending" | "Failed";
 export type CardBrand = "Visa" | "Mastercard" | "Verve";
+export type NavRouteType =
+  | "Curriculum"
+  | "Benefits"
+  | "Reviews"
+  | "About"
+  | "Contact"
+  | "Pricing";
+export type selectedCourseType =
+  | "Free plan"
+  | "Front End Web Development"
+  | "Back End Engineering"
+  | "Full Stack Engineering"
+  | "Mobile App Development"
+  | "DevOps & CI/CD";
 
 export interface Plan {
   id: PlanTier;
@@ -81,13 +95,21 @@ export type User = {
   accountType?: LoginUserState;
 };
 
-export interface Course {
+export interface TrackType {
   id: string;
   name: string;
+  slug: string;
+  desc: string;
+  hours: string;
+}
+
+export interface Course {
+  id: string;
+  name: selectedCourseType;
   duration: string;
   description: string;
   icon: string;
-  track?: Array<string>;
+  track?: Array<TrackType>;
   gradColor?: string;
   color?: string;
   rawGradColor1?: string;
@@ -183,7 +205,7 @@ export interface RegisterUserProps {
   experienceLevel: string;
   // Step 3
   deliveryMode: "online" | "offline" | "";
-  selectedCourse: string;
+  selectedCourse: selectedCourseType;
   discountCode: string;
 }
 
@@ -222,4 +244,17 @@ export interface MockCourse {
   completedLessons: number;
   lessons: MockLesson[];
   discussionCount: number;
+}
+
+export interface PricingDataType {
+  id: string;
+  pricingType: selectedCourseType;
+  price: string;
+  priceInfo: string;
+  benefits: Array<string>;
+  textColor: string;
+  bgColor: string;
+  borderColor: string;
+  buttonColor: string;
+  shadowColor: string;
 }

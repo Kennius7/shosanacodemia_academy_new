@@ -2,35 +2,17 @@
 "use client";
 
 import { useState } from "react";
-// import AuthModal from "../../../modals/AuthModal";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell } from "lucide-react";
+import { ArrowLeft, Bell } from "lucide-react";
 import { useMain } from "@/context/MainContext";
-import { NavRouteType } from "@/types";
-// import { capitalize } from "@/lib/utils";
 
-export default function Header() {
+export default function NavHeader() {
   const router = useRouter();
   const { user, loading, logout } = useAuth();
-  const { setSelectedNavRoute } = useMain();
+  const { selectedNavRoute } = useMain();
   const [menuOpen, setMenuOpen] = useState(false);
-  // const [authModal, setAuthModal] = useState<"signin" | "signup" | null>(null);
-
-  interface NavLinkType {
-    label: NavRouteType;
-    href: string;
-    isRoutable: boolean;
-  }
-
-  const navLinks: NavLinkType[] = [
-    { label: "Curriculum", href: "#curriculum", isRoutable: true },
-    { label: "Benefits", href: "#benefits", isRoutable: false },
-    { label: "Reviews", href: "#reviews", isRoutable: false },
-    { label: "About", href: "#about", isRoutable: true },
-    { label: "Contact", href: "#contact", isRoutable: false },
-  ];
 
   return (
     <>
@@ -54,38 +36,16 @@ export default function Header() {
             </a>
 
             {/* Desktop Nav */}
-            {!user && (
-              <nav className="hidden lg:flex items-center gap-8">
-                {navLinks.map((link) => {
-                  if (link.isRoutable) {
-                    return (
-                      <button
-                        key={link.href}
-                        onClick={() => {
-                          setSelectedNavRoute(link.label);
-                          router.push(`/${link.label.toLowerCase()}`);
-                        }}
-                        className="text-sm font-medium text-slate-400 hover:text-cyan-400 
-                          transition-colors duration-500 tracking-wide uppercase cursor-pointer"
-                      >
-                        {link.label}
-                      </button>
-                    );
-                  } else {
-                    return (
-                      <a
-                        key={link.href}
-                        href={link.href}
-                        className="text-sm font-medium text-slate-400 hover:text-cyan-400 
-                          transition-colors duration-500 tracking-wide uppercase cursor-pointer"
-                      >
-                        {link.label}
-                      </a>
-                    );
-                  }
-                })}
-              </nav>
-            )}
+            <button
+              onClick={() => router.push("/")}
+              className="hidden lg:flex items-center justify-start gap-2 text-cyan-500 
+              hover:text-cyan-300 cursor-pointer"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <div className="text-sm font-medium transition-colors duration-500 tracking-wide uppercase">
+                {selectedNavRoute === "About" ? "ABOUT US" : selectedNavRoute}
+              </div>
+            </button>
 
             {/* Desktop Auth Buttons */}
             <div className="hidden lg:flex items-center gap-3">
@@ -142,17 +102,16 @@ export default function Header() {
               ) : (
                 <>
                   <button
+                    // onClick={() => setAuthModal("signin")}
                     onClick={() => router.push("/login")}
-                    className="px-5 py-2 text-sm font-medium text-slate-300 hover:text-white 
-                    border border-slate-700 hover:border-cyan-500/50 rounded-lg transition-all duration-200"
+                    className="px-5 py-2 text-sm font-medium text-slate-300 hover:text-white border border-slate-700 hover:border-cyan-500/50 rounded-lg transition-all duration-200"
                   >
                     Sign In
                   </button>
                   <button
+                    // onClick={() => setAuthModal("signup")}
                     onClick={() => router.push("/signup")}
-                    className="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-cyan-500 
-                    to-blue-600 text-white rounded-lg hover:from-cyan-400 hover:to-blue-500 
-                    transition-all duration-200 shadow-lg shadow-cyan-500/20"
+                    className="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg hover:from-cyan-400 hover:to-blue-500 transition-all duration-200 shadow-lg shadow-cyan-500/20"
                   >
                     Sign Up
                   </button>
@@ -187,16 +146,28 @@ export default function Header() {
             transition-all duration-300 ${menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"}`}
         >
           <div className="px-4 py-4 space-y-3 bg-[#050A14]">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="block py-2 text-slate-400 hover:text-cyan-400 transition-colors font-medium"
-              >
-                {link.label}
-              </a>
-            ))}
+            <button
+              // key={link.href}
+              // href={link.href}
+              onClick={() => router.push("/")}
+              className="flex items-center justify-start gap-2 py-2 text-slate-400 
+              hover:text-cyan-400 transition-colors font-medium cursor-pointer"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <div className="text-sm font-medium transition-colors duration-500 tracking-wide uppercase">
+                {selectedNavRoute === "About" ? "ABOUT US" : selectedNavRoute}
+              </div>
+            </button>
+            {/* <button
+              onClick={() => router.push("/")}
+              className="hidden lg:flex items-center justify-start gap-2 text-cyan-500 
+              hover:text-cyan-300 cursor-pointer"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              <div className="text-sm font-medium transition-colors duration-500 tracking-wide uppercase">
+                {selectedNavRoute === "About" ? "ABOUT US" : selectedNavRoute}
+              </div>
+            </button> */}
             <div className="pt-3 border-t border-slate-800 flex flex-col gap-2">
               {user ? (
                 <>
@@ -214,21 +185,21 @@ export default function Header() {
                 <>
                   <button
                     onClick={() => {
-                      // setAuthModal("signin");
                       router.push("/login");
                       setMenuOpen(false);
                     }}
-                    className="w-full py-2.5 text-sm font-medium text-slate-300 border border-slate-700 rounded-lg"
+                    className="w-full py-2.5 text-sm font-medium text-slate-300 border 
+                    border-slate-700 rounded-lg cursor-pointer"
                   >
                     Sign In
                   </button>
                   <button
                     onClick={() => {
-                      // setAuthModal("signup");
                       router.push("/signup");
                       setMenuOpen(false);
                     }}
-                    className="w-full py-2.5 text-sm font-semibold bg-gradient-to-r from-cyan-500 to-blue-600 text-white rounded-lg"
+                    className="w-full py-2.5 text-sm font-semibold bg-gradient-to-r 
+                    from-cyan-500 to-blue-600 text-white rounded-lg cursor-pointer"
                   >
                     Sign Up
                   </button>
@@ -238,14 +209,6 @@ export default function Header() {
           </div>
         </div>
       </header>
-
-      {/* {authModal && (
-        <AuthModal
-          mode={authModal}
-          onClose={() => setAuthModal(null)}
-          onSwitchMode={(mode) => setAuthModal(mode)}
-        />
-      )} */}
     </>
   );
 }

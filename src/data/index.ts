@@ -4,13 +4,13 @@ import {
   Testimonial,
   Partner,
   CourseType,
-  Track,
   SidebarItem,
   Plan,
   SavedCard,
   Invoice,
   StudentDataType,
   MockCourse,
+  PricingDataType,
 } from "@/types";
 import { BookOpenText } from "lucide-react";
 import {
@@ -28,6 +28,116 @@ import {
 } from "lucide-react";
 
 export const WEEKLY_ACTIVITY = [40, 75, 55, 90, 30, 65, 80]; // % heights
+
+const INTRO_TO_COMP_SCIENCE = {
+  id: "ITCS01",
+  name: "Intro to Computer Science",
+  slug: "intro_to_comp_science",
+  desc: "The study of computers and computational systems.",
+  hours: "9hrs",
+};
+
+const HTML5_AND_CSS3 = {
+  id: "HTML01",
+  name: "HTML5 And CSS3",
+  slug: "html_and_css",
+  desc: "HTML (HyperText Markup Language) is the foundational markup language and CSS (Cascading Style Sheets) is a stylesheet language used to describe the presentation of HTML documents.",
+  hours: "14hrs",
+};
+
+const GIT_AND_GITHUB = {
+  id: "GITH01",
+  name: "Git And Github",
+  slug: "git_and_github",
+  desc: "Git, A free, open-source, distributed version control system, and Github, a cloud-based hosting service for Git repositories.",
+  hours: "14hrs",
+};
+
+const TAILWINDCSS = {
+  id: "TAIL01",
+  name: "Tailwind CSS",
+  slug: "tailwindcss",
+  desc: "Tailwind CSS is a utility-first CSS framework that provides low-level utility classes to build custom designs.",
+  hours: "10hrs",
+};
+
+const JAVASCRIPT = {
+  id: "JAVA01",
+  name: "Javascript",
+  slug: "javascript",
+  desc: "JavaScript is a high-level, interpreted, multi-paradigm programming language that enables interactive and dynamic web experiences.",
+  hours: "20hrs",
+};
+
+const TYPESCRIPT = {
+  id: "TYPE01",
+  name: "Typescript",
+  slug: "typescript",
+  desc: "TypeScript is a strongly typed superset of JavaScript developed and maintained by Microsoft.",
+  hours: "12hrs",
+};
+
+const REACT = {
+  id: "REACT01",
+  name: "React.js",
+  slug: "reactjs",
+  desc: "React is a powerful, declarative JavaScript library developed by Meta (formerly Facebook) for building fast, scalable, and interactive user interfaces.",
+  hours: "20hrs",
+};
+
+const REACT_NATIVE = {
+  id: "RNAT01",
+  name: "React Native",
+  slug: "react_native",
+  desc: "React Native is a powerful, declarative JavaScript library for building fast, scalable, and interactive mobile apps.",
+  hours: "20hrs",
+};
+
+const NEXT = {
+  id: "NEXT01",
+  name: "Next.js",
+  slug: "nextjs",
+  desc: "Next.js is a powerful React framework that extends React with features like server-side rendering, static site generation, API routes, file-system routing, and optimized bundling.",
+  hours: "20hrs",
+};
+
+const NODE_AND_EXPRESS = {
+  id: "NOEX01",
+  name: "Node.js And Express.js",
+  slug: "node_and_express",
+  desc: "Node.js is a powerful, open-source, cross-platform JavaScript runtime environment built on Chrome's high-performance V8 engine. Express.js is the most popular, minimalist, and flexible web framework for Node.js.",
+  hours: "20hrs",
+};
+
+const NEST = {
+  id: "NEST01",
+  name: "Nest.js",
+  slug: "nestjs",
+  desc: "Nest.js is a progressive, TypeScript-first Node.js framework for building efficient, scalable, and maintainable server-side applications.",
+  hours: "20hrs",
+};
+
+const DEVOPS = {
+  id: "DEVS01",
+  name: "DevOps",
+  slug: "devops",
+  desc: "DevOps is a cultural and technical movement that bridges Development and Operations teams to deliver software faster, more reliably, and with higher quality.",
+  hours: "20hrs",
+};
+const CI_CD = {
+  id: "CICD01",
+  name: "CI/CD",
+  slug: "ci_cd",
+  desc: "Continuous Integration (CI) and Continuous Delivery/Deployment (CD) are practices that automate the software delivery process.",
+  hours: "20hrs",
+};
+const TERRAFORM = {
+  id: "TERA01",
+  name: "Terraform",
+  slug: "terraform",
+  desc: "Terraform is an open-source Infrastructure as Code (IaC) tool created by HashiCorp that allows you to define and provision infrastructure using a declarative configuration language called HashiCorp Configuration Language (HCL).",
+  hours: "20hrs",
+};
 
 export const STUDENT_MENU_ITEMS: SidebarItem[] = [
   { name: "Dashboard", icon: LayoutDashboard, href: "/student" },
@@ -96,72 +206,72 @@ export const ADMIN_MENU_ITEMS: SidebarItem[] = [
   },
 ];
 
-export const courses: Course[] = [
-  {
-    id: "1",
-    name: "React Mastery",
-    duration: "6 weeks",
-    description:
-      "Build modern UIs with React 18+, hooks, context, and the latest patterns used at top companies.",
-    icon: "⚛️",
-  },
-  {
-    id: "2",
-    name: "Node.js & APIs",
-    duration: "5 weeks",
-    description:
-      "Design and deploy RESTful and GraphQL APIs with Node.js, Express, and serverless functions.",
-    icon: "🚀",
-  },
-  {
-    id: "3",
-    name: "TypeScript Deep Dive",
-    duration: "4 weeks",
-    description:
-      "Master type safety, generics, decorators, and advanced patterns in large-scale TypeScript projects.",
-    icon: "🔷",
-  },
-  {
-    id: "4",
-    name: "Next.js Full-Stack",
-    duration: "7 weeks",
-    description:
-      "Full-stack development with Next.js 14, App Router, server actions, and edge deployments.",
-    icon: "▲",
-  },
-  {
-    id: "5",
-    name: "Database Engineering",
-    duration: "5 weeks",
-    description:
-      "PostgreSQL, Firestore, and Redis — schema design, query optimization, and real-time data pipelines.",
-    icon: "🗄️",
-  },
-  {
-    id: "6",
-    name: "DevOps & CI/CD",
-    duration: "4 weeks",
-    description:
-      "Docker, GitHub Actions, Vercel, and cloud deployment workflows for production-grade applications.",
-    icon: "⚙️",
-  },
-  {
-    id: "7",
-    name: "System Design",
-    duration: "6 weeks",
-    description:
-      "Architecture patterns, scalability, microservices, and how to design systems that handle millions of users.",
-    icon: "🏗️",
-  },
-  {
-    id: "8",
-    name: "Mobile with React Native",
-    duration: "6 weeks",
-    description:
-      "Cross-platform iOS and Android apps using React Native, Expo, and native device APIs.",
-    icon: "📱",
-  },
-];
+// export const courses: Course[] = [
+//   {
+//     id: "1",
+//     name: "React Mastery",
+//     duration: "6 weeks",
+//     description:
+//       "Build modern UIs with React 18+, hooks, context, and the latest patterns used at top companies.",
+//     icon: "⚛️",
+//   },
+//   {
+//     id: "2",
+//     name: "Node.js & APIs",
+//     duration: "5 weeks",
+//     description:
+//       "Design and deploy RESTful and GraphQL APIs with Node.js, Express, and serverless functions.",
+//     icon: "🚀",
+//   },
+//   {
+//     id: "3",
+//     name: "TypeScript Deep Dive",
+//     duration: "4 weeks",
+//     description:
+//       "Master type safety, generics, decorators, and advanced patterns in large-scale TypeScript projects.",
+//     icon: "🔷",
+//   },
+//   {
+//     id: "4",
+//     name: "Next.js Full-Stack",
+//     duration: "7 weeks",
+//     description:
+//       "Full-stack development with Next.js 14, App Router, server actions, and edge deployments.",
+//     icon: "▲",
+//   },
+//   {
+//     id: "5",
+//     name: "Database Engineering",
+//     duration: "5 weeks",
+//     description:
+//       "PostgreSQL, Firestore, and Redis — schema design, query optimization, and real-time data pipelines.",
+//     icon: "🗄️",
+//   },
+//   {
+//     id: "6",
+//     name: "DevOps & CI/CD",
+//     duration: "4 weeks",
+//     description:
+//       "Docker, GitHub Actions, Vercel, and cloud deployment workflows for production-grade applications.",
+//     icon: "⚙️",
+//   },
+//   {
+//     id: "7",
+//     name: "System Design",
+//     duration: "6 weeks",
+//     description:
+//       "Architecture patterns, scalability, microservices, and how to design systems that handle millions of users.",
+//     icon: "🏗️",
+//   },
+//   {
+//     id: "8",
+//     name: "Mobile with React Native",
+//     duration: "6 weeks",
+//     description:
+//       "Cross-platform iOS and Android apps using React Native, Expo, and native device APIs.",
+//     icon: "📱",
+//   },
+// ];
 
 export const Courses: Course[] = [
   {
@@ -172,14 +282,14 @@ export const Courses: Course[] = [
       "Build modern UIs with React 18+, hooks, context, and the latest patterns used at top companies.",
     icon: "⚛️",
     track: [
-      "Intro to Computer Science",
-      "HTML5 And CSS3",
-      "Git And Github",
-      "Tailwind CSS",
-      "Javascript",
-      "Typescript",
-      "React.js",
-      "Next.js",
+      INTRO_TO_COMP_SCIENCE,
+      HTML5_AND_CSS3,
+      GIT_AND_GITHUB,
+      TAILWINDCSS,
+      JAVASCRIPT,
+      TYPESCRIPT,
+      REACT,
+      NEXT,
     ],
     gradColor: "from-violet-500 to-blue-600",
     color: "text-violet-400",
@@ -194,16 +304,16 @@ export const Courses: Course[] = [
       "Design and deploy RESTful and GraphQL APIs with Node.js, Express, and serverless functions.",
     icon: "🚀",
     track: [
-      "Intro to Computer Science",
-      "HTML5 And CSS3",
-      "Git And Github",
-      "Tailwind CSS",
-      "Javascript",
-      "Typescript",
-      "Node.js And Express.js",
-      "Nest.js",
-      "GraphQL",
-      "Databases",
+      INTRO_TO_COMP_SCIENCE,
+      HTML5_AND_CSS3,
+      GIT_AND_GITHUB,
+      TAILWINDCSS,
+      JAVASCRIPT,
+      TYPESCRIPT,
+      NODE_AND_EXPRESS,
+      NEST,
+      // "GraphQL",
+      // "Databases",
     ],
     gradColor: "from-yellow-500 to-orange-400",
     color: "text-yellow-400",
@@ -214,20 +324,19 @@ export const Courses: Course[] = [
     id: "3",
     name: "Full Stack Engineering",
     duration: "16 weeks",
-    description:
-      "Master type safety, generics, decorators, and advanced patterns in large-scale TypeScript projects.",
+    description: "Master end to end software development.",
     icon: "🔷",
     track: [
-      "Intro to Computer Science",
-      "HTML5 And CSS3",
-      "Git And Github",
-      "Tailwind CSS",
-      "Javascript",
-      "Typescript",
-      "React.js",
-      "Next.js",
-      "Node.js And Express.js",
-      "Nest.js",
+      INTRO_TO_COMP_SCIENCE,
+      HTML5_AND_CSS3,
+      GIT_AND_GITHUB,
+      TAILWINDCSS,
+      JAVASCRIPT,
+      TYPESCRIPT,
+      REACT,
+      NEXT,
+      NODE_AND_EXPRESS,
+      NEST,
     ],
     gradColor: "from-emerald-500 to-blue-300",
     color: "text-emerald-400",
@@ -238,18 +347,17 @@ export const Courses: Course[] = [
     id: "4",
     name: "Mobile App Development",
     duration: "14 weeks",
-    description:
-      "Full-stack development with Next.js 14, App Router, server actions, and edge deployments.",
+    description: "Mobile app development with React Native.",
     icon: "▲",
     track: [
-      "Intro to Computer Science",
-      "HTML5 And CSS3",
-      "Git And Github",
-      "Tailwind CSS",
-      "Javascript",
-      "Typescript",
-      "React.js",
-      "React Native",
+      INTRO_TO_COMP_SCIENCE,
+      HTML5_AND_CSS3,
+      GIT_AND_GITHUB,
+      TAILWINDCSS,
+      JAVASCRIPT,
+      TYPESCRIPT,
+      REACT,
+      REACT_NATIVE,
     ],
     gradColor: "from-cyan-500 to-blue-600",
     color: "text-cyan-400",
@@ -263,7 +371,7 @@ export const Courses: Course[] = [
     description:
       "Docker, GitHub Actions, Vercel, and cloud deployment workflows for production-grade applications.",
     icon: "⚙️",
-    track: ["Git And Github", "DevOps", "CI/CD", "Terraform"],
+    track: [GIT_AND_GITHUB, DEVOPS, CI_CD, TERRAFORM],
     gradColor: "from-blue-500 to-cyan-600",
     color: "text-cyan-600",
     rawGradColor1: "#1855E6",
@@ -600,37 +708,37 @@ export const COURSES: CourseType[] = [
   },
 ];
 
-export const TRACKS: {
-  name: Track;
-  description: string;
-  courseCount: number;
-}[] = [
-  {
-    name: "Frontend",
-    description: "Rendering, performance, accessibility.",
-    courseCount: 1,
-  },
-  {
-    name: "Backend",
-    description: "Services, data, distributed systems.",
-    courseCount: 2,
-  },
-  {
-    name: "Fullstack",
-    description: "Typed end-to-end product engineering.",
-    courseCount: 1,
-  },
-  {
-    name: "DevOps",
-    description: "Infrastructure, deploys, reliability.",
-    courseCount: 1,
-  },
-  {
-    name: "Systems",
-    description: "Memory, concurrency, low-level craft.",
-    courseCount: 1,
-  },
-];
+// export const TRACKS: {
+//   name: Track;
+//   description: string;
+//   courseCount: number;
+// }[] = [
+//   {
+//     name: "Frontend",
+//     description: "Rendering, performance, accessibility.",
+//     courseCount: 1,
+//   },
+//   {
+//     name: "Backend",
+//     description: "Services, data, distributed systems.",
+//     courseCount: 2,
+//   },
+//   {
+//     name: "Fullstack",
+//     description: "Typed end-to-end product engineering.",
+//     courseCount: 1,
+//   },
+//   {
+//     name: "DevOps",
+//     description: "Infrastructure, deploys, reliability.",
+//     courseCount: 1,
+//   },
+//   {
+//     name: "Systems",
+//     description: "Memory, concurrency, low-level craft.",
+//     courseCount: 1,
+//   },
+// ];
 
 export const CONTINUE_COURSES = [
   {
@@ -6350,7 +6458,7 @@ export const ResourceList = [
   },
   {
     id: "TYP001",
-    name: "Typescript",
+    name: TYPESCRIPT,
     description: "Introduction to TypeScript",
     shortName: "TS",
     data: TYPESCRIPT_COURSE_OUTLINE,
@@ -6880,5 +6988,135 @@ export const MOCK_COURSES: MockCourse[] = [
         completed: false,
       },
     ],
+  },
+];
+
+export const PricingData: PricingDataType[] = [
+  {
+    id: "01",
+    pricingType: "Free plan",
+    price: "0",
+    priceInfo: "Beginner access to limited resources.",
+    benefits: [
+      "Limited access to course materials",
+      "Free access to course info and resources",
+      "Free access to pre-class whatsapp groups",
+      "Free access to two classes",
+    ],
+    textColor: "text-cyan-400",
+    bgColor: "bg-cyan-400/10",
+    borderColor: "border-cyan-400/20",
+    buttonColor: "bg-cyan-400/50",
+    shadowColor: "shadow-cyan-400/20",
+  },
+  {
+    id: "02",
+    pricingType: "Front End Web Development",
+    price: "200000",
+    priceInfo: "Full front end development course.",
+    benefits: [
+      "Full access to all front end development course materials",
+      "Free access to course info and resources",
+      "Free access to pre-class and paid class whatsapp groups",
+      "Free access to all front end classes",
+      "Inclusion into community groups for job offers and deals",
+      "Free access to all extra-curricular classes",
+      "Refund option available until after 3 classes",
+      "Deferrment option available",
+      "Cancel anytime",
+    ],
+    textColor: "text-violet-400",
+    bgColor: "bg-violet-400/10",
+    borderColor: "border-violet-400/20",
+    buttonColor: "bg-violet-400/50",
+    shadowColor: "shadow-violet-400/20",
+  },
+  {
+    id: "03",
+    pricingType: "Back End Engineering",
+    price: "200000",
+    priceInfo: "Full back end development course.",
+    benefits: [
+      "Full access to all back end development course materials",
+      "Free access to course info and resources",
+      "Free access to pre-class and paid class whatsapp groups",
+      "Free access to all back end classes",
+      "Inclusion into community groups for job offers and deals",
+      "Free access to all extra-curricular classes",
+      "Refund option available until after 3 classes",
+      "Deferrment option available",
+      "Cancel anytime",
+    ],
+    textColor: "text-orange-500",
+    bgColor: "bg-orange-500/10",
+    borderColor: "border-orange-500/20",
+    buttonColor: "bg-orange-400/50",
+    shadowColor: "shadow-orange-400/20",
+  },
+  {
+    id: "04",
+    pricingType: "Full Stack Engineering",
+    price: "300000",
+    priceInfo: "Full stack development course.",
+    benefits: [
+      "Full access to all full stack development course materials",
+      "Free access to course info and resources",
+      "Free access to pre-class and paid class whatsapp groups",
+      "Free access to all full stack classes",
+      "Inclusion into community groups for job offers and deals",
+      "Free access to all extra-curricular classes",
+      "Refund option available until after 3 classes",
+      "Deferrment option available",
+      "Cancel anytime",
+    ],
+    textColor: "text-emerald-400",
+    bgColor: "bg-emerald-400/10",
+    borderColor: "border-emerald-400/20",
+    buttonColor: "bg-emerald-400/50",
+    shadowColor: "shadow-emerald-400/20",
+  },
+  {
+    id: "05",
+    pricingType: "Mobile App Development",
+    price: "200000",
+    priceInfo: "Mobile app development course.",
+    benefits: [
+      "Full access to all mobile app development course materials",
+      "Free access to course info and resources",
+      "Free access to pre-class and paid class whatsapp groups",
+      "Free access to all mobile app classes",
+      "Inclusion into community groups for job offers and deals",
+      "Free access to all extra-curricular classes",
+      "Refund option available until after 3 classes",
+      "Deferrment option available",
+      "Cancel anytime",
+    ],
+    textColor: "text-blue-400",
+    bgColor: "bg-blue-400/10",
+    borderColor: "border-blue-400/20",
+    buttonColor: "bg-blue-400/50",
+    shadowColor: "shadow-blue-400/20",
+  },
+  {
+    id: "06",
+    pricingType: "DevOps & CI/CD",
+    price: "100000",
+    priceInfo: "DevOps & CI/CD cloud deployment course.",
+    benefits: [
+      "Full access to all DevOps & CI/CD course materials",
+      "Free access to course info and resources",
+      "Free access to pre-class and paid class whatsapp groups",
+      "Free access to all DevOps & CI/CD classes",
+      "Inclusion into community groups for job offers and deals",
+      "Free access to all extra-curricular classes",
+      "Refund option available until after 3 classes",
+      "Deferrment option available",
+      "Cancel anytime",
+    ],
+    textColor: "text-red-400",
+    bgColor: "bg-red-400/10",
+    borderColor: "border-red-400/20",
+    buttonColor: "bg-red-400/50",
+    shadowColor: "shadow-red-400/20",
   },
 ];

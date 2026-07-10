@@ -71,7 +71,7 @@ export default function Benefits() {
           </h2>
           <p className="text-slate-400 text-lg max-w-xl mx-auto">
             We&apos;re not just another bootcamp. Everything here is designed to
-            get you hired.
+            get you hired or become a startup founder.
           </p>
         </div>
 
@@ -80,7 +80,8 @@ export default function Benefits() {
           {benefits.map((benefit, i) => (
             <div
               key={benefit.id}
-              className="relative bg-[#0D1629] border border-slate-800 rounded-2xl p-8 overflow-hidden group hover:border-cyan-500/20 transition-all duration-300"
+              className="relative bg-[#0D1629] border border-slate-800 rounded-2xl p-8 
+              overflow-hidden group hover:border-cyan-500/20 transition-all duration-300"
             >
               {/* Number watermark */}
               <div className="absolute -top-4 -right-4 text-8xl font-black text-white/[0.03] select-none">

@@ -1,9 +1,14 @@
-import { courses } from "@/data";
+import { Courses } from "@/data";
 import { Course } from "@/types";
+import HomeSectionHeader from "./HomeSectionHeader";
 
 function CourseCard({ course }: { course: Course }) {
   return (
-    <div className="group relative bg-[#0D1629] border border-slate-800 hover:border-cyan-500/30 rounded-2xl p-6 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-500/5 hover:-translate-y-1">
+    <div
+      className="group relative bg-[#0D1629] border border-slate-800 
+      hover:border-cyan-500/30 rounded-2xl p-6 transition-all duration-300 
+      hover:shadow-lg hover:shadow-cyan-500/5 hover:-translate-y-1"
+    >
       {/* Top row */}
       <div className="flex items-start justify-between mb-4">
         <span className="text-3xl">{course.icon}</span>
@@ -30,21 +35,23 @@ export default function Curriculum() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section header */}
         <div className="text-center mb-16">
-          <span className="inline-block text-xs font-semibold text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-3 py-1 rounded-full uppercase tracking-widest mb-4">
-            Curriculum
-          </span>
+          <HomeSectionHeader
+            text={"Curriculum"}
+            isRoutable={true}
+            route={"Curriculum"}
+          />
           <h2 className="text-4xl sm:text-5xl font-black text-white mb-4 tracking-tight">
             What You&apos;ll Learn
           </h2>
           <p className="text-slate-400 text-lg max-w-2xl mx-auto">
-            Industry-aligned modules taught by engineers who build the products
-            you use every day.
+            Industry-aligned modules taught by developers and engineers who
+            build the products like the ones you use every day.
           </p>
         </div>
 
         {/* Course grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {courses.map((course) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {Courses.map((course) => (
             <CourseCard key={course.id} course={course} />
           ))}
         </div>

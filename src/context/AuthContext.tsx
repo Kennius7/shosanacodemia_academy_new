@@ -1,7 +1,7 @@
 "use client";
 
 import { persistToken, persistUser } from "@/lib/utils";
-import { EnrolStatus, LoginUserState, User } from "@/types";
+import { EnrolStatus, LoginUserState, RegisterUserProps, User } from "@/types";
 import { usePathname } from "next/navigation";
 import React, {
   createContext,
@@ -23,6 +23,19 @@ type AuthContextType = {
   enrolStatus: EnrolStatus;
   setEnrolStatus: Dispatch<SetStateAction<EnrolStatus>>;
   accountType: LoginUserState;
+  formData: RegisterUserProps;
+  setFormData: Dispatch<SetStateAction<RegisterUserProps>>;
+};
+
+const INITIAL_FORM: RegisterUserProps = {
+  fullName: "Shosan Boggs",
+  email: "shinjinchu@gmail.com",
+  password: "Password28!",
+  learningGoals: [],
+  experienceLevel: "",
+  deliveryMode: "",
+  selectedCourse: "Front End Web Development",
+  discountCode: "",
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -31,6 +44,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   // console.log("Path Name:>>>>>>>>>>>", pathname);
   const [user, setUser] = useState<User | null>(null);
+  const [formData, setFormData] = useState<RegisterUserProps>(INITIAL_FORM);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [enrolStatus, setEnrolStatus] = useState<EnrolStatus>("Enrolled");
@@ -83,10 +97,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setToken,
     loading,
     logout,
-    // activeTrack,
     enrolStatus,
     setEnrolStatus,
     accountType,
+    formData,
+    setFormData,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

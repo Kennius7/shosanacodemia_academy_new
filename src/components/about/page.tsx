@@ -1,5 +1,3 @@
-import HomeSectionHeader from "./HomeSectionHeader";
-
 export default function AboutUs() {
   return (
     <section id="about" className="py-24 bg-[#050A14]">
@@ -7,11 +5,9 @@ export default function AboutUs() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Text */}
           <div>
-            <HomeSectionHeader
-              text={"About Us"}
-              isRoutable={true}
-              route={"About"}
-            />
+            <span className="inline-block text-xs font-semibold text-cyan-400 bg-cyan-400/10 border border-cyan-400/20 px-3 py-1 rounded-full uppercase tracking-widest mb-6">
+              About Us
+            </span>
             <h2 className="text-4xl sm:text-5xl font-black text-white mb-6 tracking-tight leading-tight">
               Training Africa&apos;s next generation of{" "}
               <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">

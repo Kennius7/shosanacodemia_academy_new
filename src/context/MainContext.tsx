@@ -3,7 +3,13 @@
 
 import { Courses, ResourceList } from "@/data";
 import { getArrayFromLocalStorage, saveArrayToLocalStorage } from "@/lib/utils";
-import { Course, EnrolStatus, PlanTier, ResourceListType } from "@/types";
+import {
+  Course,
+  EnrolStatus,
+  NavRouteType,
+  PlanTier,
+  ResourceListType,
+} from "@/types";
 import React, {
   createContext,
   Dispatch,
@@ -32,6 +38,8 @@ type MainContextType = {
   handleDeleteResource: (resourceId: string) => void;
   handleEditResourceTitle: (id: string, value: string) => void;
   handleSaveResourceTopic: () => void;
+  selectedNavRoute: NavRouteType;
+  setSelectedNavRoute: Dispatch<SetStateAction<NavRouteType>>;
 };
 
 const MainContext = createContext<MainContextType | undefined>(undefined);
@@ -41,6 +49,8 @@ export function MainProvider({ children }: { children: React.ReactNode }) {
   const [enrolStatus, setEnrolStatus] = useState<EnrolStatus>("Enrolled");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selected, setSelected] = useState<PlanTier>("Free");
+  const [selectedNavRoute, setSelectedNavRoute] =
+    useState<NavRouteType>("Curriculum");
   const [isAddResourceModal, setIsAddResourceModal] = useState(false);
   const activeTrack = Courses[0];
   const [liveResources, setLiveResources] = useState<ResourceListType[]>([]);
@@ -106,6 +116,8 @@ export function MainProvider({ children }: { children: React.ReactNode }) {
     handleDeleteResource,
     handleEditResourceTitle,
     handleSaveResourceTopic,
+    selectedNavRoute,
+    setSelectedNavRoute,
   };
 
   return <MainContext.Provider value={value}>{children}</MainContext.Provider>;

@@ -1,104 +1,100 @@
-// import { createFileRoute, Link } from "@tanstack/react-router";
-// import { SiteNav } from "@/components/site/SiteNav";
-// import { SiteFooter } from "@/components/site/SiteFooter";
+"use client";
 
-import Link from "next/link";
+import { PricingData } from "@/data";
+import { PricingDataType, selectedCourseType } from "@/types";
+import HomeSectionHeader from "./HomeSectionHeader";
+import { formatter } from "@/lib/utils";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
-// export const Route = createFileRoute("/pricing")({
-//   head: () => ({
-//     meta: [
-//       { title: "Pricing — Shosanacodemia" },
-//       { name: "description", content: "Pay per course or subscribe to the full library." },
-//       { property: "og:title", content: "Pricing — Shosanacodemia" },
-//       { property: "og:description", content: "Two simple ways to access the catalog." },
-//     ],
-//   }),
-//   component: PricingPage,
-// });
+const PricingCard = ({
+  price,
+  key,
+}: {
+  price: PricingDataType;
+  key: string;
+}) => {
+  const router = useRouter();
+  const { setFormData } = useAuth();
+
+  const handleEnrollment = (course: selectedCourseType) => {
+    setFormData((prev) => ({ ...prev, selectedCourse: course }));
+    router.push("/signup");
+  };
+
+  return (
+    <div
+      key={key}
+      className={`flex flex-col justify-between rounded-xl border ${price.borderColor} 
+      bg-primary/[0.04] p-4 md:p-8 ring-1 ring-primary/20`}
+    >
+      <div>
+        <HomeSectionHeader
+          text={price.pricingType}
+          isRoutable={false}
+          route={"Pricing"}
+          textColor={price.textColor}
+          bgColor={price.bgColor}
+          borderColor={price.borderColor}
+        />
+        <div className="mb-1 text-lg md:text-4xl font-extrabold">
+          {formatter.format(Number(price.price))}
+          <span className="text-base font-medium text-muted-foreground">
+            &nbsp;/cohort
+          </span>
+        </div>
+        <p className="mb-4 md:mb-8 text-xs md:text-sm text-muted-foreground">
+          {price.priceInfo}
+        </p>
+
+        <ul className="mb-6 md:mb-8 space-y-2 md:space-y-3 text-xs md:text-sm">
+          {price.benefits.map((b, i) => {
+            return (
+              <li key={i} className="flex gap-3">
+                <span className="text-primary">✓</span> {b}
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+
+      <button
+        onClick={() => handleEnrollment(price.pricingType)}
+        className={`block w-full rounded-lg ${price.buttonColor} ${price.shadowColor} 
+        py-3 text-center font-semibold text-primary-foreground shadow-lg
+        transition-all hover:brightness-110 text-xs md:text-lg cursor-pointer`}
+      >
+        Start enrollment
+      </button>
+    </div>
+  );
+};
 
 export default function PricingPage() {
   return (
     <div className="min-h-screen bg-[#080F1E]">
       {/* <SiteNav /> */}
-      <header className="border-b border-border px-6 py-16">
+      <header className="border-b border-border px-4 md:px-6 py-10 md:py-16">
         <div className="mx-auto max-w-3xl text-center">
-          <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-primary">
-            Pricing
-          </div>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl">
-            Two ways in.
+          <HomeSectionHeader
+            text={"Pricing"}
+            isRoutable={true}
+            route={"Pricing"}
+          />
+          <h1 className="mb-4 text-3xl font-extrabold tracking-tight md:text-4xl">
+            Your way into software development.
           </h1>
           <p className="text-muted-foreground">
-            Buy what you need, or subscribe to everything.
+            Enrol for what best suits you or send a message for guidance.
           </p>
         </div>
       </header>
-      <section className="mx-auto max-w-5xl px-6 py-16">
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="rounded-xl border border-border bg-surface p-8">
-            <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-              Per course
-            </div>
-            <div className="mb-1 text-4xl font-extrabold">$129–199</div>
-            <p className="mb-8 text-sm text-muted-foreground">
-              One-time. Lifetime access to that course.
-            </p>
-            <ul className="mb-8 space-y-3 text-sm">
-              <li className="flex gap-3">
-                <span className="text-primary">✓</span> Lifetime access
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary">✓</span> Source code and
-                exercises
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary">✓</span> Certificate of
-                completion
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary">✓</span> 14-day refund
-              </li>
-            </ul>
-            <Link
-              href="/courses"
-              className="block w-full rounded-lg border border-border py-3 
-                text-center font-medium transition-colors hover:bg-white/5"
-            >
-              Browse courses
-            </Link>
-          </div>
-          <div className="rounded-xl border border-primary/40 bg-primary/[0.04] p-8 ring-1 ring-primary/20">
-            <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-primary">
-              Full library
-            </div>
-            <div className="mb-1 text-4xl font-extrabold">
-              $29
-              <span className="text-base font-medium text-muted-foreground">
-                /mo
-              </span>
-            </div>
-            <p className="mb-8 text-sm text-muted-foreground">
-              Every current and future course.
-            </p>
-            <ul className="mb-8 space-y-3 text-sm">
-              <li className="flex gap-3">
-                <span className="text-primary">✓</span> All courses, all tracks
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary">✓</span> New courses included
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary">✓</span> Certificates on
-                completion
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary">✓</span> Cancel anytime
-              </li>
-            </ul>
-            <button className="block w-full rounded-lg bg-primary py-3 text-center font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:brightness-110">
-              Start subscription
-            </button>
-          </div>
+
+      <section className="mx-auto max-w-7xl px-2 md:px-6 py-10 md:py-16">
+        <div className="grid gap-3 md:gap-6 grid-cols-1 md:grid-cols-3">
+          {PricingData.map((price) => {
+            return <PricingCard key={price.id} price={price} />;
+          })}
         </div>
       </section>
     </div>

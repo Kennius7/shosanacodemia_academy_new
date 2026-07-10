@@ -3,6 +3,8 @@
 
 import { useState, useEffect } from "react";
 import { BannerProps } from "@/types";
+import { useRouter } from "next/navigation";
+import { useMain } from "@/context/MainContext";
 
 interface TimeLeft {
   days: number;
@@ -25,6 +27,8 @@ function getTimeLeft(targetDate: string): TimeLeft {
 const DEFAULT_TARGET = "2026-09-01T00:00:00";
 
 export default function Banner({ targetDate: initialDate }: BannerProps) {
+  const router = useRouter();
+  const { setSelectedNavRoute } = useMain();
   const [targetDate, setTargetDate] = useState(initialDate || DEFAULT_TARGET);
   const [timeLeft, setTimeLeft] = useState<TimeLeft>(() =>
     getTimeLeft(initialDate || DEFAULT_TARGET),
@@ -64,7 +68,10 @@ export default function Banner({ targetDate: initialDate }: BannerProps) {
   ];
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#050A14] pt-20">
+    <section
+      className="relative min-h-screen flex items-center justify-center 
+      overflow-hidden bg-[#050A14] pt-24 pb-6"
+    >
       {/* Background grid */}
       <div
         className="absolute inset-0 opacity-[0.03]"
@@ -108,18 +115,21 @@ export default function Banner({ targetDate: initialDate }: BannerProps) {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-          <a
-            href="#register"
+          <button
+            onClick={() => router.push("/signup")}
             className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold rounded-xl transition-all duration-200 shadow-xl shadow-cyan-500/20 text-base"
           >
             Apply for This Cohort →
-          </a>
-          <a
-            href="#curriculum"
+          </button>
+          <button
+            onClick={() => {
+              setSelectedNavRoute("Curriculum");
+              router.push("/curriculum");
+            }}
             className="w-full sm:w-auto px-8 py-4 border border-slate-700 hover:border-cyan-500/50 text-slate-300 hover:text-white font-medium rounded-xl transition-all duration-200 text-base"
           >
             View Curriculum
-          </a>
+          </button>
         </div>
 
         {/* Countdown */}

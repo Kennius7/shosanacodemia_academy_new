@@ -1,5 +1,7 @@
 "use client";
 
+import { useAuth } from "@/context/AuthContext";
+import { Courses } from "@/data";
 // import Header from "@/components/home/home-comps/Header";
 import { useApiMutation } from "@/hooks/useApiMutation";
 import { registerUser } from "@/services/api";
@@ -25,27 +27,7 @@ const EXPERIENCE_LEVELS = [
   { value: "advanced", label: "Advanced", desc: "Confident practitioner" },
 ];
 
-const COURSES = [
-  "Web Development Bootcamp",
-  "Data Science & ML",
-  "UI/UX Design",
-  "Cloud & DevOps",
-  "Mobile Development",
-  "Cybersecurity Essentials",
-];
-
 const STEPS = ["Account", "Goals", "Course"];
-
-const INITIAL_FORM: RegisterUserProps = {
-  fullName: "",
-  email: "",
-  password: "",
-  learningGoals: [],
-  experienceLevel: "",
-  deliveryMode: "",
-  selectedCourse: "",
-  discountCode: "",
-};
 
 // ─── Step indicators ──────────────────────────────────────────────────────────
 
@@ -324,13 +306,13 @@ function StepCourse({
           Select a Course
         </label>
         <div className="space-y-2">
-          {COURSES.map((course) => {
-            const active = data.selectedCourse === course;
+          {Courses.map((course) => {
+            const active = data.selectedCourse === course.name;
             return (
               <button
-                key={course}
+                key={course.id}
                 type="button"
-                onClick={() => onChange({ selectedCourse: course })}
+                onClick={() => onChange({ selectedCourse: course.name })}
                 className={`
                   w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm transition-all duration-200
                   ${
@@ -340,7 +322,7 @@ function StepCourse({
                   }
                 `}
               >
-                {course}
+                {course.name}
                 {active && (
                   <Check className="w-4 h-4 text-cyan-400 flex-shrink-0" />
                 )}
@@ -393,8 +375,8 @@ function validateStep(step: number, data: RegisterUserProps): string | null {
 
 function Register() {
   const router = useRouter();
+  const { formData, setFormData } = useAuth();
   const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState<RegisterUserProps>(INITIAL_FORM);
   const [error, setError] = useState<string | null>(null);
 
   const update = (fields: Partial<RegisterUserProps>) => {
