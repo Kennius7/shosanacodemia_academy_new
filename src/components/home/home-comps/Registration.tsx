@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { courses } from "@/data";
+import { Courses } from "@/data";
 import { RegistrationFormData } from "@/types";
 
 function validateEmail(email: string): boolean {
@@ -183,7 +183,7 @@ export default function Registration() {
                       <option value="" disabled>
                         Select a course…
                       </option>
-                      {courses.map((course) => (
+                      {Courses.map((course) => (
                         <option
                           key={course.id}
                           value={course.name}

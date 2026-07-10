@@ -40,29 +40,28 @@ export default function CourseTable({
   }, [isDashboardView, liveResources]);
 
   const getTrack = (courseName: string) => {
-    const filteredTracks = Courses.filter((c) => c.track?.includes(courseName));
+    // Find courses whose tracks contain a match for the given courseName
+    const matchingCourses = Courses.filter((course) =>
+      course.track?.some((t) => t.name.includes(courseName)),
+    );
 
-    const track =
-      filteredTracks.length > 0 ? (
-        filteredTracks.map((track) => (
-          <div
-            key={track.id}
-            className="text-xs text-center w-[100px] border border-slate-800 rounded-sm py-1 
-            cursor-pointer hover:bg-cyan-400/10"
-          >
-            {ellipsis(track.name, 13)}
-          </div>
-        ))
-      ) : (
-        <div
-          className="text-xs text-center w-[100px] border border-slate-800 rounded-sm py-1 
-          px-2 cursor-pointer hover:bg-cyan-400/10"
-        >
+    if (matchingCourses.length === 0) {
+      return (
+        <div className="text-xs text-center w-[100px] border border-slate-800 rounded-sm py-1 px-2 cursor-pointer hover:bg-cyan-400/10">
           General Notes
         </div>
       );
+    }
 
-    return track;
+    return matchingCourses.map((course) => (
+      <div
+        key={course.id}
+        className="text-xs text-center w-[100px] border border-slate-800 rounded-sm py-1 
+          cursor-pointer hover:bg-cyan-400/10"
+      >
+        {ellipsis(course.name, 13)}
+      </div>
+    ));
   };
 
   const getNumberOfTopics = (arr: Array<any>) => {

@@ -5,7 +5,7 @@ import Benefits from "@/components/home/home-comps/Benefits";
 import AboutUs from "@/components/home/home-comps/AboutUs";
 import Testimonials from "@/components/home/home-comps/Testimonials";
 import Partners from "@/components/home/home-comps/Partners";
-// import Registration from "@/components/home/home-comps/Registration";
+import Registration from "@/components/home/home-comps/Registration";
 import ContactUs from "@/components/home/home-comps/ContactUs";
 import Footer from "@/components/home/home-comps/Footer";
 // import CurriculumPage from "../curriculum/curriculum";
@@ -23,7 +23,7 @@ export default function Home() {
         <Benefits />
         <AboutUs />
         <Testimonials />
-        {/* <Registration /> */}
+        <Registration />
         <PricingPage />
         <ContactUs />
       </main>
